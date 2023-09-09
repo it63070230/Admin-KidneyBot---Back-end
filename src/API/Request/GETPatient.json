@@ -1,0 +1,17 @@
+
+// POST : /api/v1/getpatient
+{
+    "id" : "String"
+}
+
+// Response :
+
+{
+    "firstName" : "String",
+    "lastName" : "String",
+    "gender" : "String",
+    "birthday" : "Date",
+    "education" : "String",
+    "financial_status" : "String",
+    "caregiver" : "String",
+}

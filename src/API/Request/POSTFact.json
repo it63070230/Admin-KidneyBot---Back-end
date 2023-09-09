@@ -1,0 +1,11 @@
+
+// POST /api/v1/add_fact
+{
+    "question" : "String",
+    "answer" : "String",
+    "category" : "String"
+}
+
+// Response : 
+
+HTTP 200

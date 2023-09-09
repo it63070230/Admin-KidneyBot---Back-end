@@ -1,16 +1,18 @@
 
 const express = require('express');
-const { router } = require('./Router/BaseRouter');
+const router = require('./src/Router/BaseRouter');
   
 const app = express();
 const PORT = 3000;
 
-// app.get('/', (req, res)=>{
-//     res.status(200);
-//     res.send("Welcome to root URL of Servers");
-// });
+app.use(express.json());
 
-app.use(router)
+app.get('/', (req, res)=>{
+    res.status(200);
+    res.send("Welcome to root URL of Servers");
+});
+
+app.use('/api/v1',router)
   
 app.listen(PORT, (error) =>{
     if(!error)

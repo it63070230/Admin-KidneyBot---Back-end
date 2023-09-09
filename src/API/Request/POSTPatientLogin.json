@@ -1,0 +1,10 @@
+// POST : /api/v1/patient/login
+{
+    "email" : "String",
+    "password" : "String"
+}
+
+// Response :
+{
+    "token" : "Object"
+}

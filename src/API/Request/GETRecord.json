@@ -1,0 +1,14 @@
+
+// GET : /api/v1/patient/record/"id
+
+// Response :
+{
+    "id" : "string",
+    "height" : "Int",
+    "weight" : "Int",
+    "eGFR" : "float",
+    "HbA1c" : "float",
+    "BSP_Top" : "float",
+    "BSP_Bot" : "float",
+    "date" : "Date"
+}

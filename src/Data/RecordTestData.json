@@ -1,0 +1,12 @@
+[
+    {
+        "id" : 1,
+        "height" : 175,
+        "weight" : 65,
+        "eGFR" : 17.1,
+        "HbA1c" : 23.7,
+        "BSP_Top" : 125,
+        "BSP_Bot" : 80,
+        "date" : "Date"
+    }
+]
