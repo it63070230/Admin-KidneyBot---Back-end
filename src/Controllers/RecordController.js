@@ -13,9 +13,9 @@ class RecordController {
         return res.json(result)
     }
 
-    static addRecord(req,res){
+    static async addRecord(req,res){
         const result = RecordProvider.addPatientRecord(req.body)
-        return res.json(result)
+        return await res.json(result)
     }
 
     static deleteRecord(){

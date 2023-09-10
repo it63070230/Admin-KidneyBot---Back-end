@@ -19,9 +19,9 @@ class RecordProvider {
         }
     }
 
-    static addPatientRecord(record){
+    static async addPatientRecord(record){
         try {
-            return RecordRepository.addRecord(record)
+            return await RecordRepository.addRecord(record)
         } catch (error) {
             console.log(error)
         }

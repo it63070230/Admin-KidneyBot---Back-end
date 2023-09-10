@@ -1,9 +1,13 @@
 
 const express = require('express');
 const router = require('./src/Router/BaseRouter');
-  
+const dotenv = require('dotenv');
+dotenv.config();
+
 const app = express();
 const PORT = 3000;
+
+
 
 app.use(express.json());
 
@@ -13,6 +17,8 @@ app.get('/', (req, res)=>{
 });
 
 app.use('/api/v1',router)
+
+// console.log(process.env.API_KEY)
   
 app.listen(PORT, (error) =>{
     if(!error)
