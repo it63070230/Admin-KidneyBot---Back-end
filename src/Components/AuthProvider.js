@@ -23,8 +23,8 @@ class AuthProvider {
             console.log(oldEmail.docs.length)
 
             if(oldEmail.docs.length > 0){
-                console.log("This email alread existed")
-                return "This email alread existed"
+                console.log("This email already existed")
+                return "This email already existed"
             }
 
             const encryptedPassword = await bcrypt.hash(password,10)
