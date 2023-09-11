@@ -15,10 +15,6 @@ class AuthenticationController {
 
         const token = await AuthProvider.patientSignIn(email,password)
 
-        // if(token == null){
-        //     res.json()
-        // }
-
         const result = {
             "token" : token
         }
@@ -26,6 +22,28 @@ class AuthenticationController {
         res.json(result)
         
     }
+
+    static async adminSignup (req,res){
+        const result = await AuthProvider.addPatient(req.body)
+        return res.json(result)
+    }
+
+    static async adminSignin(req,res){
+        const {
+            email,
+            password
+        } = req.body
+
+        const token = await AuthProvider.patientSignIn(email,password)
+        const result = {
+            "token" : token
+        }
+
+        res.json(result)
+        
+    }
+
+    
 }
 
 module.exports = AuthenticationController
