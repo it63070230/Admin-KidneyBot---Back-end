@@ -1,106 +1,23 @@
-<<<<<<< Updated upstream
-[
-    {
-        "id" : 1,
-        "height" : 175,
-        "weight" : 65,
-        "eGFR" : 17.1,
-        "HbA1c" : 23.7,
-        "BSP_Top" : 125,
-        "BSP_Bot" : 80,
-        "date" : "Date"
-    }
-]
-
-=======
 {
-    "patients": [
-      {
-        "id": 1,
-        "username": "p1",
-        "password": "pass",
-        "sex": "Female",
-        "date_of_birth": "1985-03-20",
-        "weight_records": [
-          {
-            "weight": 62.0,
-            "timestamp": "2023-09-01T08:30:00Z"
-          },
-          {
-            "weight": 61.5,
-            "timestamp": "2023-10-01T09:15:00Z"
-          }
-        ],
-        "blood_pressure_records": [
-          {
-            "systolic": 120,
-            "diastolic": 80,
-            "timestamp": "2023-09-03T11:45:00Z"
-          },
-          {
-            "systolic": 122,
-            "diastolic": 81,
-            "timestamp": "2023-09-04T09:30:00Z"
-          }
-        ],
-        "behavior_records": [
-          {
-            "question": "Do you exercise regularly?",
-            "response": "Yes",
-            "timestamp": "2023-09-01T16:00:00Z"
-          },
-          {
-            "question": "Do you limit sugar intake?",
-            "response": "Yes",
-            "timestamp": "2023-09-01T16:30:00Z"
-          }
-        ]
-      },
-      {
-        "id": 2,
-        "username": "patient2",
-        "password": "hashedPassword2",
-        "sex": "Male",
-        "date_of_birth": "1990-07-15",
-        "weight_records": [
-          {
-            "weight": 79.8,
-            "timestamp": "2023-07-02T08:20:00Z"
-          },
-          {
-            "weight": 80.5,
-            "timestamp": "2023-08-02T07:45:00Z"
-          },
-          {
-            "weight": 79.8,
-            "timestamp": "2023-09-02T08:20:00Z"
-          }
-        ],
-        "blood_pressure_records": [
-          {
-            "systolic": 130,
-            "diastolic": 85,
-            "timestamp": "2023-09-03T09:30:00Z"
-          },
-          {
-            "systolic": 128,
-            "diastolic": 84,
-            "timestamp": "2023-09-04T10:15:00Z"
-          }
-        ],
-        "behavior_records": [
-          {
-            "question": "Do you exercise regularly?",
-            "response": "No",
-            "timestamp": "2023-09-01T14:00:00Z"
-          },
-          {
-            "question": "Do you limit sugar intake?",
-            "response": "Yes",
-            "timestamp": "2023-09-01T15:30:00Z"
-          }
-        ]
-      }
-    ]
-  }
->>>>>>> Stashed changes
+  "patients": [
+    {
+
+      "email": "bob@mymail.com",
+      "password": "123",
+      "sex": "Female",
+      "date_of_birth": "1985-03-20",
+      "firstName" : "firstName",
+      "lastName" : "lastName",
+      "gender" : "gender",
+      "birthday" : "birthday",
+      "education" : "education",
+      "financial_status" : "financial_status",
+      "caregiver" : "caregiver",
+      "weight_records": [],
+      "blood_pressure_records": [],
+      "behavior_records": [],
+      "Hba1c_records": [],
+      "eGFR_records": []
+    }
+  ]
+}

@@ -10,6 +10,7 @@ router.get('/records',RecordController.getRecords)
 router.get('/record/:id',RecordController.getRecord)
 router.post('/record/add',RecordController.addRecord)
 router.post('/record/delete',RecordController.deleteRecord)
+router.post('/record/add/weight',RecordController.add_weight_records)
 
 router.post('/signup',AuthenticationController.signup)
 router.post('/signin',AuthenticationController.signin)

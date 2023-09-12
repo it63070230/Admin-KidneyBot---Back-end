@@ -39,8 +39,11 @@ class AuthProvider {
                 "caregiver" : caregiver,
                 "email" : email,
                 "password" : encryptedPassword,
-                "weight_records" : [],
-
+                "weight_records": [],
+                "blood_pressure_records": [],
+                "behavior_records": [],
+                "Hba1c_records": [],
+                "eGFR_records": []
             }
 
             const result = await AuthRepository.addPatient(PatientInfoForAdd)
@@ -69,7 +72,8 @@ class AuthProvider {
                 return null
             }
 
-            const token = jwt.sign({email}, process.env.TOKEN_SECRET, { expiresIn: '30s' });
+
+            const token = jwt.sign({"email" : email,"id" : foundPatient.docs[0].id}, process.env.TOKEN_SECRET);
 
             return token
             
@@ -77,6 +81,7 @@ class AuthProvider {
             console.log(error)
         }
     }
+
 
     static async addAdmin(body){
         try {
