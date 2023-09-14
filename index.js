@@ -18,7 +18,6 @@ app.get('/', (req, res)=>{
 
 app.use('/api/v1',router)
 
-console.log(process.env.TOKEN_SECRET)
   
 app.listen(PORT, (error) =>{
     if(!error)

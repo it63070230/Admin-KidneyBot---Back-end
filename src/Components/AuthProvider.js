@@ -20,10 +20,10 @@ class AuthProvider {
             
             //Check is email existed?
             const oldEmail = await AuthRepository.findPatients(email)
-            console.log(oldEmail.docs.length)
+            // console.log(oldEmail.docs.length)
 
             if(oldEmail.docs.length > 0){
-                console.log("This email already existed")
+                // console.log("This email already existed")
                 return "This email already existed"
             }
 
@@ -99,10 +99,10 @@ class AuthProvider {
             
             //Check is email existed?
             const oldEmail = await AuthRepository.findPatients(email)
-            console.log(oldEmail.docs.length)
+            // console.log(oldEmail.docs.length)
 
             if(oldEmail.docs.length > 0){
-                console.log("This email alread existed")
+                // console.log("This email alread existed")
                 return "This email alread existed"
             }
 
