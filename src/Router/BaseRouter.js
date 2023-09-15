@@ -15,8 +15,8 @@ router.post('/record/add/:sub_record',RecordController.addRecord)
 
 router.post('/signup',AuthenticationController.signup)
 router.post('/signin',AuthenticationController.signin)
-router.post('/admin/signin',)
-router.post('/admin/addstaff',)
+router.post('/admin/signin',AuthenticationController.adminSignin)
+router.post('/admin/addstaff',AuthenticationController.adminSignup)
 
 
 

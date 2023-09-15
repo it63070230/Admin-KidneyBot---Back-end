@@ -86,41 +86,33 @@ class AuthProvider {
     static async addAdmin(body){
         try {
             const { 
-                firstName,
-                lastName,
-                gender,
-                birthday,
-                education,
-                financial_status,
-                caregiver,
-                email,
-                password
+                firstname,
+                lastname,
+                username,
+                password,
+                role
             } = body
             
             //Check is email existed?
-            const oldEmail = await AuthRepository.findPatients(email)
+            const oldUsername = await AuthRepository.findAdmins(username)
             // console.log(oldEmail.docs.length)
 
-            if(oldEmail.docs.length > 0){
+            if(oldUsername.docs.length > 0){
                 // console.log("This email alread existed")
-                return "This email alread existed"
+                return "This user alread existed"
             }
 
             const encryptedPassword = await bcrypt.hash(password,10)
 
-            const PatientInfoForAdd = {
-                "firstName" : firstName,
-                "lastName" : lastName,
-                "gender" : gender,
-                "birthday" : birthday,
-                "education" : education,
-                "financial_status" : financial_status,
-                "caregiver" : caregiver,
-                "email" : email,
-                "password" : encryptedPassword
+            const StaffInfoForAdd = {
+                "firstname" : firstname,
+                "lastname" : lastname,
+                "username" : username,
+                "password" : encryptedPassword,
+                "role" : role
             }
 
-            const result = await AuthRepository.addPatient(PatientInfoForAdd)
+            const result = await AuthRepository.addAdminStaff(StaffInfoForAdd)
 
             return result
         } catch (error) {
@@ -128,26 +120,27 @@ class AuthProvider {
         }
     }
 
-    static async AdminSignIn(email,password){
+    static async AdminSignIn(username,password){
         try {
 
-            if(email == null || password == null){
+            if(username == null || password == null){
+                console.log("Here")
                 return null
             }
 
-            const foundPatient = await AuthRepository.findPatients(email)
+            const foundAdmin = await AuthRepository.findAdmins(username)
 
-            if(foundPatient.docs.length == 0){
+            if(foundAdmin.docs.length == 0){
                 return null
             }
 
-            const comparePas =  await bcrypt.compare(password, foundPatient.docs[0].data().password)
+            const comparePas =  await bcrypt.compare(password, foundAdmin.docs[0].data().password)
             if(comparePas == false){
                 return null
             }
 
             // const token = jwt.sign({email}, process.env.TOKEN_SECRET, { expiresIn: '30s' });
-            const token = jwt.sign({email}, process.env.TOKEN_SECRET);
+            const token = jwt.sign({"username" : username,"id" : foundAdmin.docs[0].id}, process.env.TOKEN_SECRET);
 
             return token
             

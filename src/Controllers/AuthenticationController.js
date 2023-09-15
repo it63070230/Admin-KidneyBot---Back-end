@@ -24,17 +24,17 @@ class AuthenticationController {
     }
 
     static async adminSignup (req,res){
-        const result = await AuthProvider.addPatient(req.body)
+        const result = await AuthProvider.addAdmin(req.body)
         return res.json(result)
     }
 
     static async adminSignin(req,res){
         const {
-            email,
+            username,
             password
         } = req.body
 
-        const token = await AuthProvider.patientSignIn(email,password)
+        const token = await AuthProvider.AdminSignIn(username,password)
         const result = {
             "token" : token
         }
