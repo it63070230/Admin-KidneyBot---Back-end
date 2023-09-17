@@ -73,7 +73,7 @@ class AuthProvider {
             }
 
 
-            const token = jwt.sign({"email" : email,"id" : foundPatient.docs[0].id}, process.env.TOKEN_SECRET);
+            const token = jwt.sign({"email" : email,"id" : foundPatient.docs[0].id,"is_admin": false}, process.env.TOKEN_SECRET);
 
             return token
             
@@ -124,7 +124,6 @@ class AuthProvider {
         try {
 
             if(username == null || password == null){
-                console.log("Here")
                 return null
             }
 
@@ -140,7 +139,7 @@ class AuthProvider {
             }
 
             // const token = jwt.sign({email}, process.env.TOKEN_SECRET, { expiresIn: '30s' });
-            const token = jwt.sign({"username" : username,"id" : foundAdmin.docs[0].id}, process.env.TOKEN_SECRET);
+            const token = jwt.sign({"username" : username,"id" : foundAdmin.docs[0].id, "is_admin": true}, process.env.TOKEN_SECRET);
 
             return token
             

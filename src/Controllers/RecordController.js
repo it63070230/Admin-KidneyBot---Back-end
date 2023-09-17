@@ -8,40 +8,22 @@ class RecordController {
         return res.json(result)
     }
 
-    static getRecords(req,res){
-        const result = RecordProvider.getPatientRecords()
+    static async getRecords(req,res){
+        const result = await RecordProvider.getPatientRecords(req.authorization)
         return res.json(result)
     }
+
+    static async adminGetRecords(req,res){
+        const result = await RecordProvider.adminGetRecord(req.headers.authorization)
+        return res.json(result)
+    }
+
 
     static async addRecord(req,res){
         const result = await RecordProvider.addSubRecord(req.body,req.headers.authorization,req.params.sub_record)
 
         return res.json(result)
     }
-
-    // static async addPatientWeight(req,res){
-    //     const result = RecordProvider.add_weight_records(req.body,req.headers.authorization)
-    //     res.json(result)
-    // }
-
-    // static async addPatientWeight(req,res){
-    //     const result = RecordProvider.add_blood_pressure_records(req.body,req.headers.authorization)
-    //     res.json(result)
-    // }
-    // static async addPatientWeight(req,res){
-    //     const result = RecordProvider.add_behavior_records(req.body,req.headers.authorization)
-    //     res.json(result)
-    // }
-    // static async addPatientWeight(req,res){
-    //     const result = RecordProvider.add_Hba1c_records(req.body,req.headers.authorization)
-    //     res.json(result)
-    // }
-    // static async addPatientWeight(req,res){
-    //     const result = RecordProvider.add_Hba1c_records(req.body,req.headers.authorization)
-    //     res.json(result)
-    // }
-
-    
 
     static deleteRecord(req,res){
         const token = req.headers.authorization 

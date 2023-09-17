@@ -13,15 +13,30 @@ class RecordProvider {
                 return null
             }
             
-            return await RecordRepository.getRecord(id)
+            return await RecordRepository.getRecords(id)
         } catch (error) {
             console.log(error)
         }
     }
 
-    static getPatientRecords(){
+    static getPatientRecords(token){
+        try {detoken
+            const detoken = TokenChecker.isTokenValid(token)
+            return RecordRepository.getRecords(detoken.id)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    static async adminGetRecord(token){
         try {
-            return RecordRepository.getRecords()
+
+            const detoken = TokenChecker.isTokenValid(token)
+
+            if(detoken.id == null || detoken.is_admin == false){
+                return null
+            }
+            return await RecordRepository.getAllPatientCollection()
         } catch (error) {
             console.log(error)
         }
@@ -52,6 +67,8 @@ class RecordProvider {
         }
     }
 
+
+
         // static async addPatientRecord(record){
     //     try {
     //         return await RecordRepository.addRecord(record)
@@ -69,65 +86,23 @@ class RecordProvider {
         }
     }
 
-    // static async add_weight_records(record,token){
-    //     try {
-    //         const id = TokenChecker.isTokenValid(token).id
-    //         const sub_name = "weight_records"
-    //         const collection_name = "Patient"
-    //         const result = RecordRepository.addSubRecord(collection_name,id,sub_name,record)
-    //         return result
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
+    static async deleteRecord(token,body,subRecordName){
+        try {
+            
+            const decordedToken = await TokenChecker.isTokenValid(token)
+            if(decordedToken.is_admin == false){
+                return null
+            }
 
-    // static async add_blood_pressure_records(record,token){
-    //     try {
-    //         const id = TokenChecker.isTokenValid(token).id
-    //         const sub_name = "blood_pressure_records"
-    //         const collection_name = "Patient"
-    //         const result = RecordRepository.addSubRecord(collection_name,id,sub_name,record)
-    //         return result
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
+            const {  } = body
 
-    // static async add_behavior_records(){
-    //     try {
-    //         const id = TokenChecker.isTokenValid(token).id
-    //         const sub_name = "behavior_records"
-    //         const collection_name = "Patient"
-    //         const result = RecordRepository.addSubRecord(collection_name,id,sub_name,record)
-    //         return result
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
 
-    // static async add_Hba1c_records(){
-    //     try {
-    //         const id = TokenChecker.isTokenValid(token).id
-    //         const sub_name = "Hba1c_records"
-    //         const collection_name = "Patient"
-    //         const result = RecordRepository.addSubRecord(collection_name,id,sub_name,record)
-    //         return result
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
 
-    // static async add_eGFR_records(){
-    //     try {
-    //         const id = TokenChecker.isTokenValid(token).id
-    //         const sub_name = "eGFR_records"
-    //         const collection_name = "Patient"
-    //         const result = RecordRepository.addSubRecord(collection_name,id,sub_name,record)
-    //         return result
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
 }
 
 module.exports = RecordProvider

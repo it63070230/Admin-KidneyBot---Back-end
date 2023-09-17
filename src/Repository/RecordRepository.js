@@ -12,32 +12,48 @@ class RecordRepository {
     // Get a list of cities from your database
     
 
-    static async getRecords() {
+    // static async getRecords() {
+    //     const db = require('../Data/db')
+
+    //     const q = query(collection(db, "Patient"), where("email", "==", email));
+    //     const result = await getDocs(q);
+    //     return result
+
+    // }
+
+    static async getAllPatientCollection(){
         const db = require('../Data/db')
 
-        const q = query(collection(db, "Patient"), where("email", "==", email));
-        const result = await getDocs(q);
-        return result
+        const recordRef = collection(db, "Patient");
+        const result = await getDocs(recordRef)
 
+        let result_array = []
+
+        // result.forEach((doc) => {
+        //     // doc.data() is never undefined for query doc snapshots
+        //     console.log(doc.id, " => ", doc.data());
+
+        //   });
+
+        
+
+        for(let i = 0; i < result.docs.length; i++){
+            console.log(i)
+            result_array.push(result.docs[i].data())
+            // result_array.push(i.data())
+        }
+        
+        return result_array
     }
 
-    static async getRecord(id) {
+    static async getRecords(id) {
         const db = require('../Data/db')
-
-        console.log(id)
 
         const recordRef = doc(db, "Patient", id);
         const result = await getDoc(recordRef)
         
         return result.data()
     }
-
-    // static async addRecord(record) {
-    //     const db = require('../Data/db')
-    //     console.log(record)
-    //     const res = await addDoc(collection(db, "Record"), record);
-    //     console.log(res.id)
-    // }
 
     static deleteRecord(id) {
         
