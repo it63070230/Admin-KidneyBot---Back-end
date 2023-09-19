@@ -7,7 +7,7 @@ const recordTestData = require("../Data/RecordTestData.json")
 
 
 
-class RecordRepository {
+class RecordRepositoryV2 {
 
     static async getAllPatientCollection(){
         const db = require('../Data/db')
@@ -29,7 +29,7 @@ class RecordRepository {
     static async getRecords(id) {
         const db = require('../Data/db')
 
-        const recordRef = doc(db, "Patient", id);
+        const recordRef = doc(db, "Record", id);
         const result = await getDoc(recordRef)
         
         return result.data()
@@ -39,10 +39,10 @@ class RecordRepository {
         
     }
 
-    static async addSubRecord(collection_name,id,sub_name,record){
+    static async addSubRecord(id,sub_name,record){
         const db = require('../Data/db')
 
-        const recordRef = doc(db, collection_name, id);
+        const recordRef = doc(db, "Record", id);
 
         var add_object = {};
         add_object[sub_name] = arrayUnion(record);
@@ -54,4 +54,4 @@ class RecordRepository {
 
 }
 
-module.exports = RecordRepository
+module.exports = RecordRepositoryV2

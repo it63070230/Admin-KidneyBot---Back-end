@@ -7,8 +7,6 @@ class AuthProvider {
     static async addPatient(body){
         try {
             const { 
-                firstName,
-                lastName,
                 gender,
                 birthday,
                 education,
@@ -30,8 +28,6 @@ class AuthProvider {
             const encryptedPassword = await bcrypt.hash(password,10)
 
             const PatientInfoForAdd = {
-                "firstName" : firstName,
-                "lastName" : lastName,
                 "gender" : gender,
                 "birthday" : birthday,
                 "education" : education,

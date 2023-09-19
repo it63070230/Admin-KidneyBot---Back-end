@@ -20,7 +20,7 @@ class RecordProvider {
     }
 
     static getPatientRecords(token){
-        try {detoken
+        try {
             const detoken = TokenChecker.isTokenValid(token)
             return RecordRepository.getRecords(detoken.id)
         } catch (error) {
