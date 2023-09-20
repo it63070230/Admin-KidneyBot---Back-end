@@ -39,17 +39,20 @@ class RecordRepositoryV2 {
         
     }
 
-    static async addSubRecord(id,sub_name,record){
+    static async addRecord(id,record){
         const db = require('../Data/db')
 
-        const recordRef = doc(db, "Record", id);
+        const addRecord = {
+            "form_id" : "",
+            "patient_id" : ,
+            "answer" : ,
+            "created_at" :
+          
+        }
 
-        var add_object = {};
-        add_object[sub_name] = arrayUnion(record);
+        await addDoc(collection(db, "Patient"), patient_info);
 
-        const res = await updateDoc(recordRef, add_object);
-
-        return res
+        return patient_info
     }
 
 }
