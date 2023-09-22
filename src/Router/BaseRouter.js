@@ -7,13 +7,12 @@ const FormController = require('../Controllers/FormController');
 
 const router = express.Router()
 
-router.get('/record/',RecordController.getRecord)
+// router.get('/record/',RecordController.getRecord)
 router.get('/records',RecordController.getRecords)
 router.get('/admin/records',RecordController.adminGetRecords)
 
 router.post('/record/add',RecordController.addRecord)
 router.delete('/record/:sub_record',RecordController.deleteRecord)
-router.post('/record/add/:sub_record',RecordController.addRecord)
 
 router.post('/signup',AuthenticationController.signup)
 router.post('/signin',AuthenticationController.signin)

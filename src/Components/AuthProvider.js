@@ -26,20 +26,6 @@ class AuthProvider {
 
             objectForAdd['password'] = encryptedPassword
 
-            // const PatientInfoForAdd = {
-            //     "gender" : gender,
-            //     "birthday" : birthday,
-            //     "education" : education,
-            //     "financial_status" : financial_status,
-            //     "caregiver" : caregiver,
-            //     "email" : email,
-            //     "password" : encryptedPassword,
-            //     "weight_records": [],
-            //     "blood_pressure_records": [],
-            //     "behavior_records": [],
-            //     "Hba1c_records": [],
-            //     "eGFR_records": []
-            // }
 
             const result = await AuthRepository.addPatient(objectForAdd)
 

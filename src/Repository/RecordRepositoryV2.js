@@ -35,24 +35,24 @@ class RecordRepositoryV2 {
         return result.data()
     }
 
-    static deleteRecord(id) {
-        
-    }
 
-    static async addRecord(id,record){
+    static async addRecord(formID,userID,answer,createdAt){
         const db = require('../Data/db')
 
         const addRecord = {
-            "form_id" : "",
-            "patient_id" : ,
-            "answer" : ,
-            "created_at" :
-          
+            "form_id" : formID,
+            "patient_id" : userID,
+            "answer" : answer,
+            "created_at" : createdAt
         }
 
-        await addDoc(collection(db, "Patient"), patient_info);
+        await addDoc(collection(db, "Record"), addRecord);
 
-        return patient_info
+        return addRecord
+    }
+
+    static deleteRecord(id) {
+        
     }
 
 }

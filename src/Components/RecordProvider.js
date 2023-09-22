@@ -1,34 +1,38 @@
 
 const RecordRepository = require('../Repository/RecordRepository')
+const RecordRepositoryV2 = require('../Repository/RecordRepositoryV2')
 const TokenChecker = require('./TokenChecker')
 
 class RecordProvider {
 
-    static async getPatientRecord(token){
-        try {
+    // static async getPatientRecord(token){
+    //     try {
 
-            const id = TokenChecker.isTokenValid(token).id
+    //         const id = TokenChecker.isTokenValid(token).id
 
-            if(id == null){
-                return null
-            }
+    //         if(id == null){
+    //             return null
+    //         }
             
-            return await RecordRepository.getRecords(id)
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    //         return await RecordRepository.getRecords(id)
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
 
-    static getPatientRecords(token){
+    static async getPatientRecords(token){
         try {
+
             const detoken = TokenChecker.isTokenValid(token)
-            return RecordRepository.getRecords(detoken.id)
+            const result = await RecordRepository.getRecords(detoken.id)
+            
+            return result
         } catch (error) {
             console.log(error)
         }
     }
 
-    static async adminGetRecord(token){
+    static async adminGetRecords(token,body){
         try {
 
             const detoken = TokenChecker.isTokenValid(token)
@@ -36,21 +40,21 @@ class RecordProvider {
             if(detoken.id == null || detoken.is_admin == false){
                 return null
             }
-            return await RecordRepository.getAllPatientCollection()
+            return await RecordRepository.getRecords(body.user_id)
         } catch (error) {
             console.log(error)
         }
     }
 
-    static async addSubRecord(record,token,record_name){
+    static async addSubRecord(record,token){
         try {
 
-            const sub_record_list = ["weight_records","blood_pressure_records","behavior_records","Hba1c_records","eGFR_records"]
+            // const sub_record_list = ["weight_records","blood_pressure_records","behavior_records","Hba1c_records","eGFR_records"]
 
 
-            if(!(sub_record_list.includes(record_name))){
-                return null
-            }
+            // if(!(sub_record_list.includes(record_name))){
+            //     return null
+            // }
 
             const id = TokenChecker.isTokenValid(token).id
 
@@ -58,9 +62,7 @@ class RecordProvider {
                 return null
             }
 
-            const collection_name = "Patient"
-
-            const result = await RecordRepository.addSubRecord(collection_name,id,record_name,record)
+            const result = await RecordRepositoryV2.addRecord(record.form_id, id, record.answer, record.created_at)
             return result
         } catch (error) {
             console.log(error)
