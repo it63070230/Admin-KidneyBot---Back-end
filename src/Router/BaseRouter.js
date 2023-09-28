@@ -19,15 +19,20 @@ router.post('/signin',AuthenticationController.signin)
 router.post('/admin/signin',AuthenticationController.adminSignin)
 router.post('/admin/addstaff',AuthenticationController.adminSignup)
 
-router.get('/facts',FactController.getFacts) // In progress (on working)
-// router.post('/admin/facts',FactController.addFact) // In progress
-
 // router.get('/patient/profile',Patient.getProfile) // In progress
 
 router.get('/form',FormController.getForm) //working on
 router.post('/form',FormController.addForm) //working on
 router.put('/form',FormController.updateForm)
 router.delete('/form',FormController.deleteForm)
+
+router.get('/behaviorForm',FormController.getBehaviorForms)
+router.post('/admin/behaviorForm',FormController.addBehaviorForms)
+
+router.get('/facts',FactController.getFacts)
+router.post('/admin/fact',FactController.addFact)
+router.put('/admin/fact',FactController.updateFact)
+router.delete('/admin/fact',FactController.deleteFact)
 
 
 module.exports = router;

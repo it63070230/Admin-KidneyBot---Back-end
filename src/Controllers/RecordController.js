@@ -26,6 +26,15 @@ class RecordController {
         const result = RecordProvider.testToken(token)
         res.json(result) 
     }
+
+    static async addBehaviorRecord(req,res){
+        try {
+            const result = RecordProvider.addBehaviorRecord(req.headers.authorization,req.body)
+            res.json(result)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 }
 
 module.exports = RecordController

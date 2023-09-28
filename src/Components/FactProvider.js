@@ -6,7 +6,8 @@ class FactProvider{
 
     static async addFact(token,body){
         const deToken = TokenChecker.isTokenValid(token)
-        if(is_admin == false){
+
+        if(deToken.is_admin == false){
             return null
         }
 

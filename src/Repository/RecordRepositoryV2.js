@@ -36,14 +36,15 @@ class RecordRepositoryV2 {
     }
 
 
-    static async addRecord(formID,userID,answer,createdAt){
+    static async addRecord(formID,userID,answer,createdAt,isBehavior){
         const db = require('../Data/db')
 
         const addRecord = {
             "form_id" : formID,
             "patient_id" : userID,
             "answer" : answer,
-            "created_at" : createdAt
+            "created_at" : createdAt,
+            "is_behavior" : isBehavior
         }
 
         await addDoc(collection(db, "Record"), addRecord);

@@ -49,35 +49,18 @@ class RecordProvider {
     static async addSubRecord(record,token){
         try {
 
-            // const sub_record_list = ["weight_records","blood_pressure_records","behavior_records","Hba1c_records","eGFR_records"]
-
-
-            // if(!(sub_record_list.includes(record_name))){
-            //     return null
-            // }
-
             const id = TokenChecker.isTokenValid(token).id
 
             if(id == null){
                 return null
             }
 
-            const result = await RecordRepositoryV2.addRecord(record.form_id, id, record.answer, record.created_at)
+            const result = await RecordRepositoryV2.addRecord(record.form_id, id, record.answer, record.created_at,false)
             return result
         } catch (error) {
             console.log(error)
         }
     }
-
-
-
-        // static async addPatientRecord(record){
-    //     try {
-    //         return await RecordRepository.addRecord(record)
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
 
     static testToken(token){
         try {
@@ -103,6 +86,17 @@ class RecordProvider {
         } catch (error) {
             console.log(error)
         }
+    }
+
+    static async addBehaviorRecord(token,record){
+        const id = TokenChecker.isTokenValid(token).id
+
+        if(id == null){
+            return null
+        }
+
+        const result = await RecordRepositoryV2.addRecord(record.form_id, id, record.answer, record.created_at,true)
+        return result
     }
 
 }
