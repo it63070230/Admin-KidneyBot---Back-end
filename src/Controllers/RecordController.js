@@ -16,14 +16,19 @@ class RecordController {
 
 
     static async addRecord(req,res){
-        const result = await RecordProvider.addSubRecord(req.body,req.headers.authorization)
+        
+        const result = await RecordProvider.addRecord(req.headers.authorization,req.body)
 
         return res.json(result)
     }
 
-    static deleteRecord(req,res){
-        const token = req.headers.authorization 
-        const result = RecordProvider.testToken(token)
+    static async updateRecord(req,res){
+        const result = await RecordProvider.updateRecord(req.headers.authorization,req.body)
+        res.json(result) 
+    }
+
+    static async deleteRecord(req,res){
+        const result = await RecordProvider.deleteRecord(req.headers.authorization,req.body)
         res.json(result) 
     }
 

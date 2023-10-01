@@ -2,8 +2,13 @@ const FormProvider = require("../Components/FormProvider");
 
 class FormController {
     
-    static async getForm(req,res){
-
+    static async getForms(req,res){
+        try {
+            const result = await FormProvider.getForms()
+            res.json(result)
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     static async addForm(req,res){
@@ -12,16 +17,27 @@ class FormController {
     }
 
     static async updateForm(req,res){
-
+        try {
+            const result = await FormProvider.updateForm(req.headers.authorization,req.body)
+            res.json(result) 
+        } catch (error) {
+            console.log(error)
+        }
+        
     }
 
     static async deleteForm(req,res){
-
+        try {
+            const result = await FormProvider.deleteForm(req.headers.authorization,req.body)
+            res.json(result)
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     static async getBehaviorForms(req,res){
         try {
-            const result = await FormProvider.getBehaviorForms(req.headers.authorization,req.body)
+            const result = await FormProvider.getBehaviorForms(req.headers.authorization)
             res.json(result)
         } catch (error) {
             console.log(error)
@@ -36,6 +52,24 @@ class FormController {
         } catch (error) {
             console.log(error)
             return null
+        }
+    }
+
+    static async updateBehaviorForm(req,res){
+        try {
+            const result = await FormProvider.updateBehaviorForm(req.headers.authorization,req.body)
+            res.json(result)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    static async deleteBehaviorForm(req,res){
+        try {
+            const result = await FormProvider.deleteBehaviorForm(req.headers.authorization,req.body)
+            res.json(result)
+        } catch (error) {
+            console.log(error)
         }
     }
 }

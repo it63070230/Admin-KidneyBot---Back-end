@@ -3,6 +3,11 @@ const TokenChecker = require("./TokenChecker");
 
 class FormProvider{
 
+    static async getForms(){
+        const result = await FormRepository.getForms()
+        return result
+    }
+
     static async addForms(token,reqBody){
         try {
             const deToken = TokenChecker.isTokenValid(token)
@@ -30,6 +35,41 @@ class FormProvider{
         }
     }
 
+    static async updateForm(token,reqBody){
+        const deToken = TokenChecker.isTokenValid(token)
+        if(deToken == null || deToken.is_admin == false){
+            return null
+        }
+
+        const id = reqBody.id
+        const question = reqBody.question
+
+        const result = await FormRepository.updateForm(id,question)
+        return result
+    }
+
+    static async deleteForm(token,reqBody){
+        const deToken = TokenChecker.isTokenValid(token,reqBody)
+        if(deToken == null || deToken.is_admin == false){
+            return null
+        }
+        const id = reqBody.id
+
+        const result = await FormRepository.deleteForm(id)
+
+        return result
+    }
+
+    static async getBehaviorForms(token){
+        const deToken = TokenChecker.isTokenValid(token)
+        if(deToken == null){
+            return null
+        }
+
+        const result = await FormRepository.getBehaviorForms()
+        return result
+    }
+
     static async addBehaviorForms(token,reqBody){
         const deToken = TokenChecker.isTokenValid(token)
         if(deToken.is_admin == false){
@@ -50,16 +90,36 @@ class FormProvider{
 
             result.push(dataObject["id"] = addedDoc.id) 
         }
+
+        return result
     }
 
-    static async getBehaviorForms(token){
+    static async updateBehaviorForm(token,reqBody){
         const deToken = TokenChecker.isTokenValid(token)
-        if(deToken == null){
+        if(deToken == null || deToken.is_admin == false){
             return null
         }
 
-        const result = await FormRepository.getBehaviorForms()
+        const id = reqBody.id
+        const question = reqBody.question
+
+        const result = await FormRepository.updateForm(id,question)
         return result
+
+    }
+
+    static async deleteBehaviorForm(token,reqBody){
+        const deToken = TokenChecker.isTokenValid(token,reqBody)
+        if(deToken == null || deToken.is_admin == false){
+            return null
+        }
+        const id = reqBody.id
+
+        const result = await FormRepository.deleteForm(id)
+
+        return result
+
+
     }
 
 

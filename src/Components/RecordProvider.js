@@ -1,30 +1,22 @@
 
 const RecordRepository = require('../Repository/RecordRepository')
-const RecordRepositoryV2 = require('../Repository/RecordRepositoryV2')
 const TokenChecker = require('./TokenChecker')
 
 class RecordProvider {
 
-    // static async getPatientRecord(token){
-    //     try {
-
-    //         const id = TokenChecker.isTokenValid(token).id
-
-    //         if(id == null){
-    //             return null
-    //         }
-            
-    //         return await RecordRepository.getRecords(id)
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
-
     static async getPatientRecords(token){
         try {
 
-            const detoken = TokenChecker.isTokenValid(token)
-            const result = await RecordRepository.getRecords(detoken.id)
+            const deToken = TokenChecker.isTokenValid(token)
+
+            if(deToken == null){
+                console.log("here")
+                return null
+            }
+
+            console.log(deToken.id)
+
+            const result = await RecordRepository.getRecords(deToken.id)
             
             return result
         } catch (error) {
@@ -46,7 +38,7 @@ class RecordProvider {
         }
     }
 
-    static async addSubRecord(record,token){
+    static async addRecord(token,record){
         try {
 
             const id = TokenChecker.isTokenValid(token).id
@@ -55,37 +47,34 @@ class RecordProvider {
                 return null
             }
 
-            const result = await RecordRepositoryV2.addRecord(record.form_id, id, record.answer, record.created_at,false)
+            const result = await RecordRepository.addRecord(record.form_id, id, record.answer, record.created_at,false)
             return result
         } catch (error) {
             console.log(error)
         }
     }
 
-    static testToken(token){
-        try {
-            const result = TokenChecker.isTokenValid(token)
-            return result
-        } catch (error) {
-            console.log(error)
+    static async updateRecord(token,reqBody){
+        const deToken = await TokenChecker.isTokenValid(token)
+        if(deToken == null){
+            return null
         }
+
+        const { id , answer} = reqBody
+        const result = await RecordRepository.updateRecord(id,answer)
+        return result
     }
 
-    static async deleteRecord(token,body,subRecordName){
-        try {
-            
-            const decordedToken = await TokenChecker.isTokenValid(token)
-            if(decordedToken.is_admin == false){
-                return null
-            }
+    static async deleteRecord(token,reqBody){
 
-            const {  } = body
-
-
-
-        } catch (error) {
-            console.log(error)
+        const deToken = await TokenChecker.isTokenValid(token)
+        if(deToken == null){
+            return null
         }
+
+        const { id } = reqBody
+        const result = await RecordRepository.deleteRecord(id)
+        return result
     }
 
     static async addBehaviorRecord(token,record){
@@ -95,7 +84,7 @@ class RecordProvider {
             return null
         }
 
-        const result = await RecordRepositoryV2.addRecord(record.form_id, id, record.answer, record.created_at,true)
+        const result = await RecordRepository.addRecord(record.form_id, id, record.answer, record.created_at,true)
         return result
     }
 

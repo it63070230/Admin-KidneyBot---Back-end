@@ -11,8 +11,9 @@ const router = express.Router()
 router.get('/records',RecordController.getRecords)
 router.get('/admin/records',RecordController.adminGetRecords)
 
-router.post('/record/add',RecordController.addRecord)
-router.delete('/record/:sub_record',RecordController.deleteRecord)
+router.post('/record',RecordController.addRecord)
+router.put('/record/',RecordController.updateRecord)
+router.delete('/record/',RecordController.deleteRecord)
 
 router.post('/signup',AuthenticationController.signup)
 router.post('/signin',AuthenticationController.signin)
@@ -21,13 +22,15 @@ router.post('/admin/addstaff',AuthenticationController.adminSignup)
 
 // router.get('/patient/profile',Patient.getProfile) // In progress
 
-router.get('/form',FormController.getForm) //working on
-router.post('/form',FormController.addForm) //working on
-router.put('/form',FormController.updateForm)
-router.delete('/form',FormController.deleteForm)
+router.get('/form',FormController.getForms) //working on
+router.post('/admin/form',FormController.addForm) //working on
+router.put('/admin/form',FormController.updateForm)
+router.delete('/admin/form',FormController.deleteForm)
 
 router.get('/behaviorForm',FormController.getBehaviorForms)
 router.post('/admin/behaviorForm',FormController.addBehaviorForms)
+router.put('/admin/behaviorForm',FormController.updateBehaviorForm)
+router.delete('/admin/behaviorForm',FormController.deleteBehaviorForm)
 
 router.get('/facts',FactController.getFacts)
 router.post('/admin/fact',FactController.addFact)
