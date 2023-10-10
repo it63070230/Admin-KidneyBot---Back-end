@@ -1,4 +1,5 @@
 const AdminController = require('../Controllers/AdminController')
+const ProfileController = require('../Controllers/ProfileController')
 const RecordController = require('../Controllers/RecordController')
 const AuthenticationController = require('../Controllers/AuthenticationController')
 const FactController = require('../Controllers/FactController')
@@ -20,7 +21,8 @@ router.post('/signin',AuthenticationController.signin)
 router.post('/admin/signin',AuthenticationController.adminSignin)
 router.post('/admin/addstaff',AuthenticationController.adminSignup)
 
-// router.get('/patient/profile',Patient.getProfile) // In progress
+router.get('/profile', ProfileController.getUserProfile);
+router.put('/profile', ProfileController.updateUserProfile);
 
 router.get('/form',FormController.getForms) //working on
 router.post('/admin/form',FormController.addForm) //working on
