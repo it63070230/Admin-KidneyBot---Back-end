@@ -13,6 +13,7 @@ router.get('/records',RecordController.getRecords)
 router.get('/admin/records',RecordController.adminGetRecords)
 
 router.post('/record',RecordController.addRecord)
+router.post('/record/add/:sub_record',RecordController.addSubRecord)
 router.put('/record/',RecordController.updateRecord)
 router.delete('/record/',RecordController.deleteRecord)
 
@@ -23,13 +24,9 @@ router.post('/admin/addstaff',AuthenticationController.adminSignup)
 
 router.get('/profile', ProfileController.getUserProfile);
 router.put('/profile', ProfileController.updateUserProfile);
+router.get('/admin/profile', ProfileController.adminGetProfiles);
 
-router.get('/form',FormController.getForms) //working on
-router.post('/admin/form',FormController.addForm) //working on
-router.put('/admin/form',FormController.updateForm)
-router.delete('/admin/form',FormController.deleteForm)
-
-router.get('/behaviorForm',FormController.getBehaviorForms)
+router.get('/admin/behaviorForm',FormController.getBehaviorForms)
 router.post('/admin/behaviorForm',FormController.addBehaviorForms)
 router.put('/admin/behaviorForm',FormController.updateBehaviorForm)
 router.delete('/admin/behaviorForm',FormController.deleteBehaviorForm)

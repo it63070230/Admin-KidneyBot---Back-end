@@ -10,7 +10,7 @@ class RecordController {
     }
 
     static async adminGetRecords(req,res){
-        const result = await RecordProvider.adminGetRecords(req.headers.authorization, req.body)
+        const result = await RecordProvider.adminGetRecords(req.headers.authorization)
         return res.json(result)
     }
 
@@ -18,6 +18,13 @@ class RecordController {
     static async addRecord(req,res){
         
         const result = await RecordProvider.addRecord(req.headers.authorization,req.body)
+
+        return res.json(result)
+    }
+
+    static async addSubRecord(req,res){
+
+        const result = await RecordProvider.addSubRecord(req.body,req.headers.authorization,req.params.sub_record)
 
         return res.json(result)
     }

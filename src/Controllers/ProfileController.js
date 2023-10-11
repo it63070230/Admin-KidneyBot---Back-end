@@ -36,6 +36,11 @@ class ProfileController {
       return res.status(500).json({ error: 'Internal server error' });
     }
   }
+
+  static async adminGetProfiles(req,res){
+    const result = await ProfileProvider.adminGetProfiles(req.headers.authorization)
+    return res.json(result)
+}
 }
 
 module.exports = ProfileController;

@@ -17,30 +17,18 @@ class RecordRepository {
         let result_array = []
 
         for(let i = 0; i < result.docs.length; i++){
-            console.log(i)
             result_array.push(result.docs[i].data())
-            // result_array.push(i.data())
         }
         
         return result_array
     }
 
     static async getRecords(id) {
-        
 
-        console.log(id)
+        const recordRef = doc(db, "Patient", id);
+        const result = await getDoc(recordRef)
 
-        const q = query(collection(db, "Record"), where("patient_id", "==", id), );
-        const result = await getDocs(q);
-
-        let dataResult = []
-
-        result.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
-            dataResult.push(doc.data())
-        });
-        
-        return dataResult
+        return result.data()
     }
 
     static async updateRecord(id,answer){

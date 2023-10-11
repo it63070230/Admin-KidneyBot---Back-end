@@ -3,23 +3,6 @@ const db = require('../Data/db')
 
 class FormRepository{
 
-    static async getForms(){
-        const q = query(collection(db, "Form"), where("is_behavior", "==", false));
-        const result = await getDocs(q);
-        
-        let dataResult = []
-
-        result.forEach((doc) => {
-            const temp = {
-                "id" : doc.id,
-                "question" : doc.data().question
-            }
-            dataResult.push(temp)
-        }); 
-
-        return dataResult
-    }
-
     static async updateForm(id,question){
         const formRef = doc(db, "Form", id);
 
@@ -37,12 +20,26 @@ class FormRepository{
     }
 
     static async addForm(formData){
-        const res = await addDoc(collection(db, "Form"), formData);
-        return res
+        try {
+            // Get the current ID counter
+            const counterRef = doc(db, "counters", "behaviorFormId");
+            const counterDoc = await getDoc(counterRef);
+            const currentId = counterDoc.exists() ? counterDoc.data().value : 0;
+
+            await setDoc(doc(db, "Form", currentId.toString()), formData);
+
+            await setDoc(counterRef, { value: currentId + 1 });
+
+            return formData;
+
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
     }
 
     static async getBehaviorForms(){
-        const q = query(collection(db, "Form"), where("is_behavior", "==", true));
+        const q = query(collection(db, "Form"));
         const result = await getDocs(q);
         
         let dataResult = []

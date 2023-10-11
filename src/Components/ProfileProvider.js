@@ -1,4 +1,5 @@
 const ProfileRepository = require('../Repository/ProfileRepository');
+const RecordRepository = require('../Repository/RecordRepository');
 const TokenChecker = require('./TokenChecker');
 
 class ProfileProvider {
@@ -18,7 +19,6 @@ class ProfileProvider {
         return null;
       }
 
-      // Extract only the desired fields from the profile
       const selectedFields = {
         gender: profile.gender,
         birthday: profile.birthday,
@@ -63,6 +63,38 @@ class ProfileProvider {
     } catch (error) {
       console.log(error);
       return null;
+    }
+  }
+
+  static async adminGetProfiles(token) {
+    try {
+
+      const detoken = TokenChecker.isTokenValid(token)
+
+      if (detoken.id == null || detoken.is_admin == false) {
+        return null
+      }
+
+      const profiles = await RecordRepository.getAllPatientCollection()
+
+      const selectedProfiles = profiles.map(profile => ({
+        gender: profile.gender,
+        birthday: profile.birthday,
+        education: profile.education,
+        financialStatus: profile.financialStatus,
+        sufficiency: profile.sufficiency,
+        caregiver: profile.caregiver,
+        email: profile.email,
+        diagnosis: profile.diagnosis,
+        height: profile.height,
+        selectedComorbidities: profile.selectedComorbidities || [],
+        selectedDrugs: profile.selectedDrugs || [],
+      }));
+
+      return selectedProfiles;
+
+    } catch (error) {
+      console.log(error)
     }
   }
 }

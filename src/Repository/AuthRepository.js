@@ -1,4 +1,4 @@
-const { collection, query, where, getDocs, addDoc, getDoc,doc } = require("firebase/firestore");
+const { collection, query, where, getDocs, addDoc, setDoc, getDoc,doc } = require("firebase/firestore");
 const db = require('../Data/db')
 
 class AuthRepository{
@@ -18,19 +18,26 @@ class AuthRepository{
     }
 
     static async addPatient(patient_info){
-
-        const res = await addDoc(collection(db, "Patient"), patient_info);
-
-        const docRef = doc(db, "Patient", res.id);
-        const docRes = await getDoc(docRef);
-
-        var resResult = docRes.data()
-
-        delete resResult.password
-        
-        const result = resResult
-
-        return result
+        try {
+            const counterRef = doc(db, "counters", "patientCounter");
+            const counterDoc = await getDoc(counterRef);
+            const currentId = counterDoc.exists() ? counterDoc.data().value : 1;
+    
+            const newDocRef = doc(db, "Patient", currentId.toString());
+            await setDoc(newDocRef, patient_info);
+    
+            await setDoc(counterRef, { value: currentId + 1 });
+    
+            const docRes = await getDoc(newDocRef);
+            const resResult = docRes.data();
+    
+            delete resResult.password;
+    
+            return resResult;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
     }
 
     static async findAdmins(username){
@@ -47,20 +54,27 @@ class AuthRepository{
         return result
     }
 
-    static async addAdminStaff(patient_info){
-
-        const res = await addDoc(collection(db, "Admin"), patient_info);
-
-        const docRef = doc(db, "Admin", res.id);
-        const docRes = await getDoc(docRef);
-
-        var resResult = docRes.data()
-
-        delete resResult.password
-        
-        const result = resResult
-
-        return result
+    static async addAdminStaff(admin_info){
+        try {
+            const counterRef = doc(db, "counters", "adminCounter");
+            const counterDoc = await getDoc(counterRef);
+            const currentId = counterDoc.exists() ? counterDoc.data().value : 1;
+    
+            const newDocRef = doc(db, "Admin", currentId.toString());
+            await setDoc(newDocRef, admin_info);
+    
+            await setDoc(counterRef, { value: currentId + 1 });
+    
+            const docRes = await getDoc(newDocRef);
+            const resResult = docRes.data();
+    
+            delete resResult.password;
+    
+            return resResult;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
     }
 }
 
