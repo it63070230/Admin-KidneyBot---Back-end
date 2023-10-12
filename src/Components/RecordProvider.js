@@ -69,6 +69,60 @@ class RecordProvider {
         }
     }
 
+    static async updateSubRecord(token, id, sub_name, indexToUpdate, updatedValue) {
+        try {
+            const deToken = TokenChecker.isTokenValid(token);
+            if (deToken == null) {
+                return null;
+            }
+    
+            if (!sub_name || !indexToUpdate || indexToUpdate < 0) {
+                return null;
+            }
+
+            const collection_name = "Patient"
+            const recordRef = doc(db, collection_name, id);
+    
+            // Create an object to update the specific subrecord field
+            const updateData = {};
+            updateData[`${sub_name}.${indexToUpdate}`] = updatedValue;
+    
+            await updateDoc(recordRef, updateData);
+    
+            return "Subrecord updated";
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    }
+
+    static async deleteSubRecord(token, id, sub_name, indexToDelete) {
+        try {
+            const deToken = TokenChecker.isTokenValid(token);
+            if (deToken == null) {
+                return null;
+            }
+    
+            if (!sub_name || !indexToDelete || indexToDelete < 0) {
+                return null;
+            }
+    
+            const collection_name = "Patient"
+            const recordRef = doc(db, collection_name, id);
+    
+            // Create an object to delete the specific subrecord field
+            const deleteData = {};
+            deleteData[`${sub_name}.${indexToDelete}`] = FieldValue.delete();
+    
+            await updateDoc(recordRef, deleteData);
+    
+            return "Subrecord deleted";
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    }
+
     static async addRecord(token, record) {
         try {
 

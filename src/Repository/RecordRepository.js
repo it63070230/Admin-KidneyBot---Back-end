@@ -61,6 +61,29 @@ class RecordRepository {
         return res
     }
 
+    static async updateSubRecord(collection_name, id, sub_name, record) {
+        const recordRef = doc(db, collection_name, id);
+        
+        // Create an object to update the specific subrecord field
+        const updateData = {};
+        updateData[`${sub_name}.${record.index}`] = record.updatedValue;
+    
+        await updateDoc(recordRef, updateData);
+    
+        return "Subrecord updated";
+    }
+
+    static async deleteSubRecord(collection_name, id, sub_name, indexToDelete) {
+        const recordRef = doc(db, collection_name, id);
+         
+        const deleteData = {};
+        deleteData[`${sub_name}.${indexToDelete}`] = FieldValue.delete();
+    
+        await updateDoc(recordRef, deleteData);
+    
+        return "Subrecord deleted";
+    }
+
     static async addRecord(formID,userID,answer,createdAt,isBehavior){
 
         const addRecord = {

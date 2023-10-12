@@ -14,6 +14,8 @@ router.get('/admin/records',RecordController.adminGetRecords)
 
 router.post('/record',RecordController.addRecord)
 router.post('/record/add/:sub_record',RecordController.addSubRecord)
+router.put('/record/update/:sub_record', RecordController.updateSubRecord);
+router.delete('/record/delete/:sub_record', RecordController.deleteSubRecord);
 router.put('/record/',RecordController.updateRecord)
 router.delete('/record/',RecordController.deleteRecord)
 
