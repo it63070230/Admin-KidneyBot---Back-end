@@ -1,4 +1,4 @@
-const { doc, setDoc,collection, addDoc, updateDoc,arrayUnion, getDocs, getDoc,query,where,deleteDoc } = require("firebase/firestore")
+const { doc, setDoc,collection, addDoc, updateDoc,arrayUnion, getDocs, getDoc,query, where, deleteDoc, orderBy, limit } = require("firebase/firestore")
 const db = require('../Data/db')
 
 class FormRepository{
@@ -21,17 +21,19 @@ class FormRepository{
 
     static async addForm(formData){
         try {
-            // Get the current ID counter
-            const counterRef = doc(db, "counters", "behaviorFormId");
-            const counterDoc = await getDoc(counterRef);
-            const currentId = counterDoc.exists() ? counterDoc.data().value : 0;
+            const formRef = collection(db, "Form");
+            const latestFormQuery = query(formRef, orderBy("id", "desc"), limit(1)); 
+            const latestFormSnapshot = await getDocs(latestFormQuery);
 
-            await setDoc(doc(db, "Form", currentId.toString()), formData);
+            let newFormId = 1;
+            if (!latestFormSnapshot.empty) {
+                const latestForm = latestFormSnapshot.docs[0].data();
+                newFormId = latestForm.id + 1;
+            }
 
-            await setDoc(counterRef, { value: currentId + 1 });
+            await setDoc(doc(db, "Form", newFormId.toString()), { id: newFormId, ...formData });
 
-            return formData;
-
+            return { id: newFormId, ...formData };
         } catch (error) {
             console.error(error);
             throw error;

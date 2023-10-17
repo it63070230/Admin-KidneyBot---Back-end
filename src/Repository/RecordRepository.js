@@ -2,7 +2,6 @@ const {initializeApp} = require('firebase/app')
 const { getFirestore } = require('firebase/firestore')
 
 const { doc, deleteDoc,collection, addDoc, updateDoc,arrayUnion, getDocs, getDoc, query,where } = require("firebase/firestore");
-const recordTestData = require("../Data/RecordTestData.json")
 
 const db = require('../Data/db')
 
@@ -16,11 +15,13 @@ class RecordRepository {
 
         let result_array = []
 
-        for(let i = 0; i < result.docs.length; i++){
-            result_array.push(result.docs[i].data())
-        }
-        
-        return result_array
+        result.docs.forEach(doc => {
+            const data = doc.data(); 
+            const id = doc.id;     
+            result_array.push({ id, ...data }); 
+        });
+    
+        return result_array;
     }
 
     static async getRecords(id) {

@@ -1,9 +1,0 @@
-
-// GET : /api/v1/facts
-
-// Response :
-[{
-    "question" : "String",
-    "answer" : "String",
-    "category" : "String"
-}]

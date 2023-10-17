@@ -45,7 +45,29 @@ class RecordProvider {
             if (detoken.id == null || detoken.is_admin == false) {
                 return null
             }
-            return await RecordRepository.getAllPatientCollection()
+            const result = await RecordRepository.getAllPatientCollection()
+
+            const selectedFields = result.map(patient => ({
+                id: patient.id,
+                behavior_records: patient.behavior_records,
+                blood_pressure_records: patient.blood_pressure_records,
+                weight_records: patient.weight_records,
+                eGFR_records: patient.eGFR_records,
+                Hba1c_records: patient.Hba1c_records,
+            }));
+    
+            // Filter out records with undefined or empty arrays
+            const filteredFields = selectedFields.filter(patient => {
+                return !Object.values(patient)
+                    .every(value => value === undefined || (Array.isArray(value) && value.length === 0));
+            });
+    
+            if (filteredFields.length === 0) {
+                return 'no data available';
+            } else {
+                return filteredFields;
+            }
+            
         } catch (error) {
             console.log(error)
         }

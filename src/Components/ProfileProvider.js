@@ -78,6 +78,7 @@ class ProfileProvider {
       const profiles = await RecordRepository.getAllPatientCollection()
 
       const selectedProfiles = profiles.map(profile => ({
+        id: profile.id,
         gender: profile.gender,
         birthday: profile.birthday,
         education: profile.education,

@@ -21,13 +21,15 @@ class ProfileRepository {
     const profileRef = collection(db, 'Patient');
     const result = await getDocs(profileRef);
 
-    let result_array = [];
+    let resultArray = [];
 
-    for (let i = 0; i < result.docs.length; i++) {
-      result_array.push(result.docs[i].data());
-    }
+    result.docs.forEach(doc => {
+        const data = doc.data();
+        const id = doc.id;
+        resultArray.push({ id, ...data });
+    });
 
-    return result_array;
+    return resultArray;
   }
 
   static async getProfileByEmail(email) {
@@ -35,7 +37,7 @@ class ProfileRepository {
     const result = await getDocs(q);
 
     if (result.docs.length === 0) {
-      return null; // Patient not found
+      return null;
     }
 
     return result.docs[0].data();

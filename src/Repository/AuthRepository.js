@@ -1,4 +1,4 @@
-const { collection, query, where, getDocs, addDoc, setDoc, getDoc,doc } = require("firebase/firestore");
+const { collection, query, where, getDocs, addDoc, setDoc, getDoc, doc, orderBy, limit } = require("firebase/firestore");
 const db = require('../Data/db')
 
 class AuthRepository{
@@ -17,23 +17,22 @@ class AuthRepository{
         return result
     }
 
-    static async addPatient(patient_info){
+    static async addPatient(patientInfo) {
         try {
-            const counterRef = doc(db, "counters", "patientCounter");
-            const counterDoc = await getDoc(counterRef);
-            const currentId = counterDoc.exists() ? counterDoc.data().value : 1;
+            const patientRef = collection(db, "Patient");
+            const latestPatientQuery = query(patientRef, orderBy("id", "desc"), limit(1));
+            const latestPatientSnapshot = await getDocs(latestPatientQuery);
     
-            const newDocRef = doc(db, "Patient", currentId.toString());
-            await setDoc(newDocRef, patient_info);
+            let newPatientId = 1;
     
-            await setDoc(counterRef, { value: currentId + 1 });
+            if (!latestPatientSnapshot.empty) {
+                const latestPatient = latestPatientSnapshot.docs[0].data();
+                newPatientId = latestPatient.id + 1;
+            }
     
-            const docRes = await getDoc(newDocRef);
-            const resResult = docRes.data();
+            await setDoc(doc(db, "Patient", newPatientId.toString()), { id: newPatientId, ...patientInfo });
     
-            delete resResult.password;
-    
-            return resResult;
+            return { id: newPatientId, ...patientInfo };
         } catch (error) {
             console.error(error);
             throw error;
@@ -54,28 +53,27 @@ class AuthRepository{
         return result
     }
 
-    static async addAdminStaff(admin_info){
+    static async addAdminStaff(adminInfo) {
         try {
-            const counterRef = doc(db, "counters", "adminCounter");
-            const counterDoc = await getDoc(counterRef);
-            const currentId = counterDoc.exists() ? counterDoc.data().value : 1;
+            const adminRef = collection(db, "Admin");
+            const latestAdminQuery = query(adminRef, orderBy("id", "desc"), limit(1));
+            const latestAdminSnapshot = await getDocs(latestAdminQuery);
     
-            const newDocRef = doc(db, "Admin", currentId.toString());
-            await setDoc(newDocRef, admin_info);
+            let newAdminId = 1;
     
-            await setDoc(counterRef, { value: currentId + 1 });
+            if (!latestAdminSnapshot.empty) {
+                const latestAdmin = latestAdminSnapshot.docs[0].data();
+                newAdminId = latestAdmin.id + 1;
+            }
     
-            const docRes = await getDoc(newDocRef);
-            const resResult = docRes.data();
+            await setDoc(doc(db, "Admin", newAdminId.toString()), { id: newAdminId, ...adminInfo });
     
-            delete resResult.password;
-    
-            return resResult;
+            return { id: newAdminId, ...adminInfo };
         } catch (error) {
             console.error(error);
             throw error;
         }
-    }
+    }    
 }
 
 module.exports = AuthRepository
