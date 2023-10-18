@@ -10,8 +10,7 @@ const router = express.Router()
 
 // router.get('/record/',RecordController.getRecord)
 router.get('/records',RecordController.getRecords)
-router.get('/admin/records',RecordController.adminGetRecords)
-
+router.get('/admin/query-records',RecordController.adminQueryRecords);
 router.post('/record',RecordController.addRecord)
 router.post('/record/:sub_record',RecordController.addSubRecord)
 router.put('/record/:sub_record', RecordController.updateSubRecord);

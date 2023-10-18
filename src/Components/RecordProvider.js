@@ -4,6 +4,50 @@ const TokenChecker = require('./TokenChecker')
 
 class RecordProvider {
 
+    static async queryRecords(token, patientIdsArray, recordTypesArray) {
+        try {
+            const decodedToken = TokenChecker.isTokenValid(token);
+    
+            if (!decodedToken) {
+                return null;
+            }
+    
+            if (!decodedToken.is_admin) {
+                return null;
+            }
+    
+            let queryResults;
+    
+            if (!patientIdsArray && !recordTypesArray) {
+                const result = await RecordRepository.getAllPatientCollection();
+                queryResults = result.map(patient => ({
+                    id: patient.id,
+                    behavior_records: patient.behavior_records,
+                    blood_pressure_records: patient.blood_pressure_records,
+                    weight_records: patient.weight_records,
+                    eGFR_records: patient.eGFR_records,
+                    Hba1c_records: patient.Hba1c_records,
+                }));
+            } else if (patientIdsArray && !recordTypesArray) {
+                const recordTypesArray = [ 'blood_pressure_records', 'behavior_records', 'eGFR_records', 'weight_records', 'Hba1c_records' ]
+                queryResults = await RecordRepository.getRecordsForPatients(patientIdsArray, recordTypesArray);
+            } else if (!patientIdsArray && recordTypesArray) {
+                queryResults = await RecordRepository.getRecordsForAllPatients(recordTypesArray);
+            } else {
+                queryResults = await RecordRepository.getRecordsForPatients(patientIdsArray, recordTypesArray);
+            }
+
+            if (queryResults && queryResults.length > 0) {
+                return queryResults;
+            } else {
+                return 'No matching records found';
+            }
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    }
+
     static async getPatientRecords(token) {
         try {
 
@@ -37,42 +81,6 @@ class RecordProvider {
         }
     }
 
-    static async adminGetRecords(token) {
-        try {
-
-            const detoken = TokenChecker.isTokenValid(token)
-
-            if (detoken.id == null || detoken.is_admin == false) {
-                return null
-            }
-            const result = await RecordRepository.getAllPatientCollection()
-
-            const selectedFields = result.map(patient => ({
-                id: patient.id,
-                behavior_records: patient.behavior_records,
-                blood_pressure_records: patient.blood_pressure_records,
-                weight_records: patient.weight_records,
-                eGFR_records: patient.eGFR_records,
-                Hba1c_records: patient.Hba1c_records,
-            }));
-    
-            // Filter out records with undefined or empty arrays
-            const filteredFields = selectedFields.filter(patient => {
-                return !Object.values(patient)
-                    .every(value => value === undefined || (Array.isArray(value) && value.length === 0));
-            });
-    
-            if (filteredFields.length === 0) {
-                return 'no data available';
-            } else {
-                return filteredFields;
-            }
-            
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
     static async addSubRecord(record, token, record_name) {
         try {
             const sub_record_list = ["weight_records", "blood_pressure_records", "behavior_records", "Hba1c_records", "eGFR_records"]
@@ -97,20 +105,20 @@ class RecordProvider {
             if (deToken == null) {
                 return null;
             }
-    
+
             if (!sub_name || !indexToUpdate || indexToUpdate < 0) {
                 return null;
             }
 
             const collection_name = "Patient"
             const recordRef = doc(db, collection_name, id);
-    
+
             // Create an object to update the specific subrecord field
             const updateData = {};
             updateData[`${sub_name}.${indexToUpdate}`] = updatedValue;
-    
+
             await updateDoc(recordRef, updateData);
-    
+
             return "Subrecord updated";
         } catch (error) {
             console.error(error);
@@ -124,20 +132,20 @@ class RecordProvider {
             if (deToken == null) {
                 return null;
             }
-    
+
             if (!sub_name || !indexToDelete || indexToDelete < 0) {
                 return null;
             }
-    
+
             const collection_name = "Patient"
             const recordRef = doc(db, collection_name, id);
-    
+
             // Create an object to delete the specific subrecord field
             const deleteData = {};
             deleteData[`${sub_name}.${indexToDelete}`] = FieldValue.delete();
-    
+
             await updateDoc(recordRef, deleteData);
-    
+
             return "Subrecord deleted";
         } catch (error) {
             console.error(error);

@@ -3,17 +3,31 @@ const RecordProvider = require("../Components/RecordProvider")
 
 class RecordController {
 
+    static async adminQueryRecords(req, res) {
+        try {
+            const { patientIds, recordTypes } = req.query;
+            const token = req.headers.authorization;
+    
+            const patientIdsArray = patientIds ? patientIds.split(",") : null;
+            const recordTypesArray = recordTypes ? recordTypes.split(",") : null;
+    
+            const result = await RecordProvider.queryRecords(token, patientIdsArray, recordTypesArray);
+    
+            if (result) {
+                return res.json(result);
+            } else {
+                return res.status(404).json({ error: "No matching records found." });
+            }
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ error: "Internal server error" });
+        }
+    }
 
     static async getRecords(req,res){
         const result = await RecordProvider.getPatientRecords(req.headers.authorization)
         return res.json(result)
     }
-
-    static async adminGetRecords(req,res){
-        const result = await RecordProvider.adminGetRecords(req.headers.authorization)
-        return res.json(result)
-    }
-
 
     static async addRecord(req,res){
         
