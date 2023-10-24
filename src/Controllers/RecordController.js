@@ -11,7 +11,7 @@ class RecordController {
             const patientIdsArray = patientIds ? patientIds.split(",") : null;
             const lineIdsArray = lineIds ? lineIds.split(",") : null;
             const recordTypesArray = recordTypes ? recordTypes.split(",") : null;
-    
+
             const result = await RecordProvider.queryRecords(token, patientIdsArray, lineIdsArray, recordTypesArray);
     
             if (result) {

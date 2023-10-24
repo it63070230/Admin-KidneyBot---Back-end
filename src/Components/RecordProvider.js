@@ -7,17 +7,17 @@ class RecordProvider {
     static async queryRecords(token, patientIdsArray, lineIdsArray, recordTypesArray) {
         try {
             const decodedToken = TokenChecker.isTokenValid(token);
-    
+
             if (!decodedToken) {
                 return null;
             }
-    
+
             if (!decodedToken.is_admin) {
                 return null;
             }
-    
+
             let queryResults;
-    
+
             if (!patientIdsArray && !lineIdsArray && !recordTypesArray) {
                 const result = await RecordRepository.getAllPatientCollection();
                 queryResults = result.map(patient => ({
@@ -29,12 +29,13 @@ class RecordProvider {
                     eGFR_records: patient.eGFR_records,
                     Hba1c_records: patient.Hba1c_records,
                 }));
-            } else if (patientIdsArray || lineIdsArray && !recordTypesArray) {
-                const recordTypesArray = [ 'blood_pressure_records', 'behavior_records', 'eGFR_records', 'weight_records', 'Hba1c_records' ]
-                queryResults = await RecordRepository.getRecordsForPatients(patientIdsArray, lineIdsArray, recordTypesArray);
+            } else if ((patientIdsArray || lineIdsArray) && !recordTypesArray) {
+                const defaultRecordTypesArray = ['blood_pressure_records', 'behavior_records', 'eGFR_records', 'weight_records', 'Hba1c_records']
+                queryResults = await RecordRepository.getRecordsForPatients(patientIdsArray, lineIdsArray, defaultRecordTypesArray);
             } else if (!patientIdsArray && !lineIdsArray && recordTypesArray) {
                 queryResults = await RecordRepository.getRecordsForAllPatients(recordTypesArray);
             } else {
+                console.log("here")
                 queryResults = await RecordRepository.getRecordsForPatients(patientIdsArray, lineIdsArray, recordTypesArray);
             }
 
