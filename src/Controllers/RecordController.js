@@ -5,13 +5,14 @@ class RecordController {
 
     static async adminQueryRecords(req, res) {
         try {
-            const { patientIds, recordTypes } = req.query;
+            const { patientIds, lineIds, recordTypes } = req.query;
             const token = req.headers.authorization;
     
             const patientIdsArray = patientIds ? patientIds.split(",") : null;
+            const lineIdsArray = lineIds ? lineIds.split(",") : null;
             const recordTypesArray = recordTypes ? recordTypes.split(",") : null;
     
-            const result = await RecordProvider.queryRecords(token, patientIdsArray, recordTypesArray);
+            const result = await RecordProvider.queryRecords(token, patientIdsArray, lineIdsArray, recordTypesArray);
     
             if (result) {
                 return res.json(result);

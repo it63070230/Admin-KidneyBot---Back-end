@@ -8,25 +8,35 @@ const db = require('../Data/db')
 
 class RecordRepository {
 
-    static async getRecordsForPatients(patientIds, recordTypes) {
+    static async getRecordsForPatients(patientIds, lineIds, recordTypes) {
         const recordRef = collection(db, "Patient");
         const result = await getDocs(recordRef);
-    
+
         const patientRecords = [];
         result.docs.forEach(doc => {
             const data = doc.data();
             const id = doc.id;
-    
+            const lineId = doc.lineId;
+
             const filteredData = {
                 id,
+                lineId
             };
-    
+
             recordTypes.forEach(type => {
                 filteredData[type] = data[type] || [];
             });
-    
-            if (patientIds.includes(id)) {
-                patientRecords.push(filteredData);
+
+            if (patientIds != null) {
+                if (patientIds.includes(id)) {
+                    patientRecords.push(filteredData);
+                }
+            }
+
+            if (lineIds != null) {
+                if (lineIds.includes(lineId)) {
+                    patientRecords.push(filteredData);
+                }
             }
         });
         return patientRecords;
@@ -35,20 +45,20 @@ class RecordRepository {
     static async getRecordsForAllPatients(recordTypes) {
         const recordRef = collection(db, "Patient");
         const result = await getDocs(recordRef);
-    
+
         const patientRecords = [];
         result.docs.forEach(doc => {
             const data = doc.data();
             const id = doc.id;
-    
+
             const filteredData = {
                 id,
             };
-    
+
             recordTypes.forEach(type => {
                 filteredData[type] = data[type] || [];
             });
-    
+
             patientRecords.push(filteredData);
         });
         return patientRecords;

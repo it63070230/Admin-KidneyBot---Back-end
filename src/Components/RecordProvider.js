@@ -4,7 +4,7 @@ const TokenChecker = require('./TokenChecker')
 
 class RecordProvider {
 
-    static async queryRecords(token, patientIdsArray, recordTypesArray) {
+    static async queryRecords(token, patientIdsArray, lineIdsArray, recordTypesArray) {
         try {
             const decodedToken = TokenChecker.isTokenValid(token);
     
@@ -18,23 +18,24 @@ class RecordProvider {
     
             let queryResults;
     
-            if (!patientIdsArray && !recordTypesArray) {
+            if (!patientIdsArray && !lineIdsArray && !recordTypesArray) {
                 const result = await RecordRepository.getAllPatientCollection();
                 queryResults = result.map(patient => ({
                     id: patient.id,
+                    lineId: patient.lineId,
                     behavior_records: patient.behavior_records,
                     blood_pressure_records: patient.blood_pressure_records,
                     weight_records: patient.weight_records,
                     eGFR_records: patient.eGFR_records,
                     Hba1c_records: patient.Hba1c_records,
                 }));
-            } else if (patientIdsArray && !recordTypesArray) {
+            } else if (patientIdsArray || lineIdsArray && !recordTypesArray) {
                 const recordTypesArray = [ 'blood_pressure_records', 'behavior_records', 'eGFR_records', 'weight_records', 'Hba1c_records' ]
-                queryResults = await RecordRepository.getRecordsForPatients(patientIdsArray, recordTypesArray);
-            } else if (!patientIdsArray && recordTypesArray) {
+                queryResults = await RecordRepository.getRecordsForPatients(patientIdsArray, lineIdsArray, recordTypesArray);
+            } else if (!patientIdsArray && !lineIdsArray && recordTypesArray) {
                 queryResults = await RecordRepository.getRecordsForAllPatients(recordTypesArray);
             } else {
-                queryResults = await RecordRepository.getRecordsForPatients(patientIdsArray, recordTypesArray);
+                queryResults = await RecordRepository.getRecordsForPatients(patientIdsArray, lineIdsArray, recordTypesArray);
             }
 
             if (queryResults && queryResults.length > 0) {
