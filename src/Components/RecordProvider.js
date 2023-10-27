@@ -52,7 +52,6 @@ class RecordProvider {
 
     static async getPatientRecords(token) {
         try {
-
             const deToken = TokenChecker.isTokenValid(token)
 
             if (deToken == null) {
