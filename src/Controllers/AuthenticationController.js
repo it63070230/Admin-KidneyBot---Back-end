@@ -9,11 +9,11 @@ class AuthenticationController {
 
     static async signin(req,res){
         const {
-            email,
+            lineId,
             password
         } = req.body
 
-        const token = await AuthProvider.patientSignIn(email,password)
+        const token = await AuthProvider.patientSignIn(lineId,password)
 
         const result = {
             "token" : token

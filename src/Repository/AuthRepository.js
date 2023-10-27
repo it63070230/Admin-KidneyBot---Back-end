@@ -3,16 +3,16 @@ const db = require('../Data/db')
 
 class AuthRepository{
 
-    static async findPatients(email){
+    static async findPatients(lineId){
     
-        const q = query(collection(db, "Patient"), where("email", "==", email));
+        const q = query(collection(db, "Patient"), where("lineId", "==", lineId));
         const result = await getDocs(q);
         return result
     }
 
-    static async findPatient(email){
+    static async findPatient(lineId){
     
-        const q = query(collection(db, "Patient"), where("email", "==", email));
+        const q = query(collection(db, "Patient"), where("lineId", "==", lineId));
         const result = await getDoc(q);
         return result
     }

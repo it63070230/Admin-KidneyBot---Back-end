@@ -7,17 +7,17 @@ class AuthProvider {
     static async addPatient(body){
         try {
             const { 
-                email,
+                lineId,
                 password
             } = body
             
-            //Check is email existed?
-            const oldEmail = await AuthRepository.findPatients(email)
+            //Check is lineId existed?
+            const oldEmail = await AuthRepository.findPatients(lineId)
             // console.log(oldEmail.docs.length)
 
             if(oldEmail.docs.length > 0){
-                // console.log("This email already existed")
-                return "This email already existed"
+                // console.log("This lineId already existed")
+                return "This lineId already existed"
             }
 
             const encryptedPassword = await bcrypt.hash(password,10)
@@ -35,14 +35,14 @@ class AuthProvider {
         }
     }
 
-    static async patientSignIn(email,password){
+    static async patientSignIn(lineId,password){
         try {
 
-            if(email == null || password == null){
+            if(lineId == null || password == null){
                 return null
             }
 
-            const foundPatient = await AuthRepository.findPatients(email)
+            const foundPatient = await AuthRepository.findPatients(lineId)
 
             if(foundPatient.docs.length == 0){
                 return null
@@ -54,7 +54,7 @@ class AuthProvider {
             }
 
 
-            const token = jwt.sign({"email" : email,"id" : foundPatient.docs[0].id,"is_admin": false}, process.env.TOKEN_SECRET);
+            const token = jwt.sign({"lineId" : lineId,"id" : foundPatient.docs[0].id,"is_admin": false}, process.env.TOKEN_SECRET);
 
             return token
             
@@ -74,12 +74,12 @@ class AuthProvider {
                 role
             } = body
             
-            //Check is email existed?
+            //Check is lineId existed?
             const oldUsername = await AuthRepository.findAdmins(username)
             // console.log(oldEmail.docs.length)
 
             if(oldUsername.docs.length > 0){
-                // console.log("This email alread existed")
+                // console.log("This lineId alread existed")
                 return "This user alread existed"
             }
 
@@ -119,7 +119,7 @@ class AuthProvider {
                 return null
             }
 
-            // const token = jwt.sign({email}, process.env.TOKEN_SECRET, { expiresIn: '30s' });
+            // const token = jwt.sign({lineId}, process.env.TOKEN_SECRET, { expiresIn: '30s' });
             const token = jwt.sign({"username" : username,"id" : foundAdmin.docs[0].id, "is_admin": true}, process.env.TOKEN_SECRET);
 
             return token
