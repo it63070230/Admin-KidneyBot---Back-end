@@ -16,7 +16,7 @@ class RecordRepository {
         result.docs.forEach(doc => {
             const data = doc.data();
             const id = doc.id;
-            const lineId = doc.lineId;
+            const lineId = data.lineId;
 
             const filteredData = {
                 id,
@@ -32,7 +32,6 @@ class RecordRepository {
                     patientRecords.push(filteredData);
                 }
             }
-
             if (lineIds != null) {
                 if (lineIds.includes(lineId)) {
                     patientRecords.push(filteredData);
@@ -50,9 +49,11 @@ class RecordRepository {
         result.docs.forEach(doc => {
             const data = doc.data();
             const id = doc.id;
+            const lineId = data.lineId;
 
             const filteredData = {
                 id,
+                lineId
             };
 
             recordTypes.forEach(type => {

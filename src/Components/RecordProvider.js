@@ -35,7 +35,6 @@ class RecordProvider {
             } else if (!patientIdsArray && !lineIdsArray && recordTypesArray) {
                 queryResults = await RecordRepository.getRecordsForAllPatients(recordTypesArray);
             } else {
-                console.log("here")
                 queryResults = await RecordRepository.getRecordsForPatients(patientIdsArray, lineIdsArray, recordTypesArray);
             }
 
