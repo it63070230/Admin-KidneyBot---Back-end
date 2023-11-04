@@ -94,15 +94,16 @@ class RecordProvider {
             const collection_name = "Patient"
             const result = await RecordRepository.addSubRecord(collection_name, id, record_name, record)
             return result
+
         } catch (error) {
             console.log(error)
         }
     }
 
-    static async updateSubRecord(token, id, sub_name, indexToUpdate, updatedValue) {
+    static async updateSubRecord(token, sub_name, indexToUpdate, updatedValue) {
         try {
-            const deToken = TokenChecker.isTokenValid(token);
-            if (deToken == null) {
+            const id = TokenChecker.isTokenValid(token).id;
+            if (id == null) {
                 return null;
             }
 
@@ -111,15 +112,9 @@ class RecordProvider {
             }
 
             const collection_name = "Patient"
-            const recordRef = doc(db, collection_name, id);
+            const result = await RecordRepository.updateSubRecord(collection_name, id, sub_name, updatedValue)
+            return result
 
-            // Create an object to update the specific subrecord field
-            const updateData = {};
-            updateData[`${sub_name}.${indexToUpdate}`] = updatedValue;
-
-            await updateDoc(recordRef, updateData);
-
-            return "Subrecord updated";
         } catch (error) {
             console.error(error);
             return null;

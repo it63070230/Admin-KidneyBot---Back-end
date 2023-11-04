@@ -122,7 +122,6 @@ class RecordRepository {
     static async updateSubRecord(collection_name, id, sub_name, record) {
         const recordRef = doc(db, collection_name, id);
 
-        // Create an object to update the specific subrecord field
         const updateData = {};
         updateData[`${sub_name}.${record.index}`] = record.updatedValue;
 

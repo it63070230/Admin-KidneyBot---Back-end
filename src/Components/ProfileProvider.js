@@ -12,7 +12,7 @@ class ProfileProvider {
         return null;
       }
 
-      const profile = await ProfileRepository.getProfileByEmail(deToken.email);
+      const profile = await ProfileRepository.getProfileByLineID(deToken.lineId);
 
       if (profile == null) {
         console.log('Profile not found');

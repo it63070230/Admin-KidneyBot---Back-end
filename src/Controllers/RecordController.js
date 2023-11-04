@@ -47,10 +47,10 @@ class RecordController {
 
     static async updateSubRecord(req, res) {
         try {
-            const { id, sub_name, indexToUpdate, updatedValue } = req.body;
+            const { indexToUpdate, updatedValue } = req.body;
             const token = req.headers.authorization;
     
-            const result = await RecordProvider.updateSubRecord(token, id, sub_name, indexToUpdate, updatedValue);
+            const result = await RecordProvider.updateSubRecord(token, req.params.sub_record, indexToUpdate, updatedValue);
     
             if (result) {
                 return res.json(result);

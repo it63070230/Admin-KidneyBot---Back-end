@@ -32,8 +32,8 @@ class ProfileRepository {
     return resultArray;
   }
 
-  static async getProfileByEmail(email) {
-    const q = query(collection(db, 'Patient'), where('email', '==', email));
+  static async getProfileByLineID(lineId) {
+    const q = query(collection(db, 'Patient'), where('lineId', '==', lineId));
     const result = await getDocs(q);
 
     if (result.docs.length === 0) {
@@ -43,8 +43,8 @@ class ProfileRepository {
     return result.docs[0].data();
   }
 
-  static async updateProfile(email, newData) {
-    const q = query(collection(db, 'Patient'), where('email', '==', email));
+  static async updateProfile(lineId, newData) {
+    const q = query(collection(db, 'Patient'), where('lineId', '==', lineId));
     const result = await getDocs(q);
 
     if (result.docs.length === 0) {
@@ -57,8 +57,8 @@ class ProfileRepository {
     return newData;
   }
 
-  static async deleteProfile(email) {
-    const q = query(collection(db, 'Patient'), where('email', '==', email));
+  static async deleteProfile(lineId) {
+    const q = query(collection(db, 'Patient'), where('lineId', '==', lineId));
     const result = await getDocs(q);
 
     if (result.docs.length === 0) {
