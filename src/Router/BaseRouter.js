@@ -11,12 +11,9 @@ const router = express.Router()
 // router.get('/record/',RecordController.getRecord)
 router.get('/records',RecordController.getRecords)
 router.get('/admin/query-records',RecordController.adminQueryRecords);
-router.post('/record',RecordController.addRecord)
 router.post('/record/:sub_record',RecordController.addSubRecord)
 router.put('/record/:sub_record', RecordController.updateSubRecord);
 router.delete('/record/:sub_record', RecordController.deleteSubRecord);
-router.put('/record/',RecordController.updateRecord)
-router.delete('/record/',RecordController.deleteRecord)
 
 router.post('/signup',AuthenticationController.signup)
 router.post('/signin',AuthenticationController.signin)

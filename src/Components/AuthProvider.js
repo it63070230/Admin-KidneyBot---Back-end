@@ -12,10 +12,10 @@ class AuthProvider {
             } = body
             
             //Check is lineId existed?
-            const oldEmail = await AuthRepository.findPatients(lineId)
-            // console.log(oldEmail.docs.length)
+            const oldLineId = await AuthRepository.findPatients(lineId)
+            // console.log(oldLineId.docs.length)
 
-            if(oldEmail.docs.length > 0){
+            if(oldLineId.docs.length > 0){
                 // console.log("This lineId already existed")
                 return "This lineId already existed"
             }
@@ -76,7 +76,7 @@ class AuthProvider {
             
             //Check is lineId existed?
             const oldUsername = await AuthRepository.findAdmins(username)
-            // console.log(oldEmail.docs.length)
+            // console.log(oldUsername.docs.length)
 
             if(oldUsername.docs.length > 0){
                 // console.log("This lineId alread existed")

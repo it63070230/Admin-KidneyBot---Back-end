@@ -1,7 +1,7 @@
 const { initializeApp } = require('firebase/app')
 const { getFirestore } = require('firebase/firestore')
 
-const { doc, deleteDoc, collection, addDoc, updateDoc, arrayUnion, getDocs, getDoc, query, where } = require("firebase/firestore");
+const { doc, deleteDoc, collection, addDoc, updateDoc, arrayUnion, getDocs, getDoc, setDoc, query, where } = require("firebase/firestore");
 
 const db = require('../Data/db')
 
@@ -89,26 +89,7 @@ class RecordRepository {
         return result.data()
     }
 
-    static async updateRecord(id, answer) {
-        const formRef = doc(db, "Record", id);
-
-        await updateDoc(formRef, {
-            answer: answer
-        });
-
-        const result = { "answer": answer }
-
-        return result
-    }
-
-    static async deleteRecord(id) {
-        await deleteDoc(doc(db, "Record", id));
-
-        return "Deleted"
-    }
-
     static async addSubRecord(collection_name, id, sub_name, record) {
-
         const recordRef = doc(db, collection_name, id);
 
         var add_object = {};
@@ -119,43 +100,54 @@ class RecordRepository {
         return res
     }
 
-    static async updateSubRecord(collection_name, id, sub_name, record) {
-        const recordRef = doc(db, collection_name, id);
+    static async updateSubRecord(collection_name, id, subRecordIndex, sub_record, data) {
+        const docRef = doc(db, collection_name, id);
 
-        const updateData = {};
-        updateData[`${sub_name}.${record.index}`] = record.updatedValue;
+        try {
+            const docSnapshot = await getDoc(docRef);
+        
+            if (docSnapshot.exists()) {
+                const currentData = docSnapshot.data();
 
-        await updateDoc(recordRef, updateData);
-
-        return "Subrecord updated";
+                if (
+                    currentData[sub_record][subRecordIndex] !== undefined
+                ) {
+                    currentData[sub_record][subRecordIndex] = data;
+       
+                    await setDoc(docRef, currentData);
+                    return true;
+                } else {
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
     }
 
-    static async deleteSubRecord(collection_name, id, sub_name, indexToDelete) {
-        const recordRef = doc(db, collection_name, id);
+    static async deleteSubRecord(collection_name, id, subRecordIndex, sub_record) {
+        const docRef = doc(db, collection_name, id);
+        console.log(docRef)
 
-        const deleteData = {};
-        deleteData[`${sub_name}.${indexToDelete}`] = FieldValue.delete();
+        const docSnapshot = await getDoc(docRef);
 
-        await updateDoc(recordRef, deleteData);
-
-        return "Subrecord deleted";
-    }
-
-    static async addRecord(formID, userID, answer, createdAt, isBehavior) {
-
-        const addRecord = {
-            "form_id": formID,
-            "patient_id": userID,
-            "answer": answer,
-            "created_at": createdAt,
-            "is_behavior": isBehavior
+        if (!docSnapshot.exists()) {
+            return null;
         }
 
-        await addDoc(collection(db, "Record"), addRecord);
+        if (
+            docSnapshot.data()[sub_record] &&
+            docSnapshot.data()[sub_record].length > subRecordIndex
+        ) {
+            docSnapshot.data()[sub_record].splice(subRecordIndex, 1);
+        }
 
-        return addRecord
+        await updateDoc(docRef, docSnapshot.data());
+        return true;
     }
-
 }
 
 module.exports = RecordRepository

@@ -100,104 +100,48 @@ class RecordProvider {
         }
     }
 
-    static async updateSubRecord(token, sub_name, indexToUpdate, updatedValue) {
+    static async updateSubRecord(patientId, subRecordIndex, sub_record, data, token) {
         try {
-            const id = TokenChecker.isTokenValid(token).id;
-            if (id == null) {
-                return null;
-            }
+            const deToken = TokenChecker.isTokenValid(token)
 
-            if (!sub_name || !indexToUpdate || indexToUpdate < 0) {
-                return null;
-            }
-
-            const collection_name = "Patient"
-            const result = await RecordRepository.updateSubRecord(collection_name, id, sub_name, updatedValue)
-            return result
-
-        } catch (error) {
-            console.error(error);
-            return null;
-        }
-    }
-
-    static async deleteSubRecord(token, id, sub_name, indexToDelete) {
-        try {
-            const deToken = TokenChecker.isTokenValid(token);
-            if (deToken == null) {
-                return null;
-            }
-
-            if (!sub_name || !indexToDelete || indexToDelete < 0) {
-                return null;
-            }
-
-            const collection_name = "Patient"
-            const recordRef = doc(db, collection_name, id);
-
-            // Create an object to delete the specific subrecord field
-            const deleteData = {};
-            deleteData[`${sub_name}.${indexToDelete}`] = FieldValue.delete();
-
-            await updateDoc(recordRef, deleteData);
-
-            return "Subrecord deleted";
-        } catch (error) {
-            console.error(error);
-            return null;
-        }
-    }
-
-    static async addRecord(token, record) {
-        try {
-
-            const id = TokenChecker.isTokenValid(token).id
-
-            if (id == null) {
+            if (deToken.is_admin == false) {
                 return null
             }
 
-            const result = await RecordRepository.addRecord(record.form_id, id, record.answer, record.created_at, false)
-            return result
+            const collection_name = "Patient";
+            const result = await RecordRepository.updateSubRecord(
+                collection_name,
+                patientId,
+                subRecordIndex,
+                sub_record,
+                data
+            );
+            return result;
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     }
 
-    static async updateRecord(token, reqBody) {
-        const deToken = await TokenChecker.isTokenValid(token)
-        if (deToken == null) {
-            return null
+    static async deleteSubRecord(patientId, subRecordIndex, sub_record, token) {
+        try {
+            const deToken = TokenChecker.isTokenValid(token)
+
+            if (deToken.is_admin == false) {
+                return null
+            }
+
+            const collection_name = "Patient";
+            const result = await RecordRepository.deleteSubRecord(
+                collection_name,
+                patientId,
+                subRecordIndex,
+                sub_record
+            );
+            return result;
+        } catch (error) {
+            console.log(error);
         }
-
-        const { id, answer } = reqBody
-        const result = await RecordRepository.updateRecord(id, answer)
-        return result
     }
-
-    static async deleteRecord(token, reqBody) {
-
-        const deToken = await TokenChecker.isTokenValid(token)
-        if (deToken == null) {
-            return null
-        }
-
-        const { id } = reqBody
-        const result = await RecordRepository.deleteRecord(id)
-        return result
-    }
-
-    static async addBehaviorRecord(token, record) {
-        const id = TokenChecker.isTokenValid(token).id
-
-        if (id == null) {
-            return null
-        }
-
-        const result = await RecordRepository.addRecord(record.form_id, id, record.answer, record.created_at, true)
-        return result
-    }
-
 }
 
 module.exports = RecordProvider
