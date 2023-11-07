@@ -48,7 +48,7 @@ class ProfileRepository {
     const result = await getDocs(q);
 
     if (result.docs.length === 0) {
-      return null; // Patient not found
+      return null;
     }
 
     const profileDocRef = result.docs[0].ref;
@@ -62,7 +62,7 @@ class ProfileRepository {
     const result = await getDocs(q);
 
     if (result.docs.length === 0) {
-      return null; // Patient not found
+      return null;
     }
 
     const profileDocRef = result.docs[0].ref;
