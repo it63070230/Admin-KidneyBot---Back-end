@@ -46,7 +46,7 @@ class RecordController {
 
             const result = await RecordProvider.updateSubRecord(patientId, subRecordIndex, sub_record, data, token);
             if (result) {
-                return res.json(result);
+                return res.json({ message: "Sub-record updated successfully" });
             } else {
                 return res.status(404).json({ message: "Sub-record not found" });
             }

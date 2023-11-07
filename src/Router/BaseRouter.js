@@ -1,8 +1,6 @@
-const AdminController = require('../Controllers/AdminController')
 const ProfileController = require('../Controllers/ProfileController')
 const RecordController = require('../Controllers/RecordController')
 const AuthenticationController = require('../Controllers/AuthenticationController')
-const FactController = require('../Controllers/FactController')
 const express = require('express');
 const FormController = require('../Controllers/FormController');
 
@@ -28,11 +26,5 @@ router.get('/admin/behaviorForm',FormController.getBehaviorForms)
 router.post('/admin/behaviorForm',FormController.addBehaviorForms)
 router.put('/admin/behaviorForm',FormController.updateBehaviorForm)
 router.delete('/admin/behaviorForm',FormController.deleteBehaviorForm)
-
-router.get('/facts',FactController.getFacts)
-router.post('/admin/fact',FactController.addFact)
-router.put('/admin/fact',FactController.updateFact)
-router.delete('/admin/fact',FactController.deleteFact)
-
 
 module.exports = router;
