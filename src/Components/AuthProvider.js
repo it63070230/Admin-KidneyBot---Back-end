@@ -35,10 +35,10 @@ class AuthProvider {
         }
     }
 
-    static async patientSignIn(lineId,password){
+    static async patientSignIn(lineId){
         try {
 
-            if(lineId == null || password == null){
+            if(lineId == null){
                 return null
             }
 
@@ -47,12 +47,6 @@ class AuthProvider {
             if(foundPatient.docs.length == 0){
                 return null
             }
-
-            const comparePas =  await bcrypt.compare(password, foundPatient.docs[0].data().password)
-            if(comparePas == false){
-                return null
-            }
-
 
             const token = jwt.sign({"lineId" : lineId,"id" : foundPatient.docs[0].id,"is_admin": false}, process.env.TOKEN_SECRET);
 
