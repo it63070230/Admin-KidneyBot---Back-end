@@ -7,8 +7,7 @@ class AuthProvider {
     static async addPatient(body){
         try {
             const { 
-                lineId,
-                password
+                lineId
             } = body
             
             //Check is lineId existed?
@@ -20,12 +19,7 @@ class AuthProvider {
                 return "This lineId already existed"
             }
 
-            const encryptedPassword = await bcrypt.hash(password,10)
-
             let objectForAdd = body
-
-            objectForAdd['password'] = encryptedPassword
-
 
             const result = await AuthRepository.addPatient(objectForAdd)
 
