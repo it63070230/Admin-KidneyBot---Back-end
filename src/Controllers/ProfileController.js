@@ -27,7 +27,7 @@ class ProfileController {
         // Handle the case when the profile is not found or the token is invalid
         return res.status(404).json({ error: 'Profile not found or invalid token' });
       }
- 
+
       // Return the updated user profile as JSON
       return res.json(updatedProfile);
     } catch (error) {

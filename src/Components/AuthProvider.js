@@ -21,6 +21,7 @@ class AuthProvider {
 
             let objectForAdd = body
 
+
             const result = await AuthRepository.addPatient(objectForAdd)
 
             return result
