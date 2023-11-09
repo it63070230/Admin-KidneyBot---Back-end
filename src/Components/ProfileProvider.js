@@ -50,7 +50,7 @@ class ProfileProvider {
       }
 
       const updatedProfile = await ProfileRepository.updateProfile(
-        deToken.email,
+        deToken.lineId,
         newProfileData
       );
 

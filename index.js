@@ -10,9 +10,8 @@ const PORT = 3000;
 
 app.use(express.json());
 
-// Configure CORS to allow requests from a specific origin
 const corsOptions = {
-  origin: 'https://kidney-bot-project.web.app',
+  origin: ['https://kidney-bot-project.web.app', 'http://localhost:3001'],
   credentials: true,
 };
 
