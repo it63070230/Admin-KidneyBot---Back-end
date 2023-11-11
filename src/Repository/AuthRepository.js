@@ -3,21 +3,21 @@ const db = require('../Data/db')
 
 class AuthRepository{
 
-    static async findPatients(lineId){
+    static async findPatients(userId){
     
-        const q = query(collection(db, "Patient"), where("lineId", "==", lineId));
+        const q = query(collection(db, "Patient"), where("userId", "==", userId));
         const result = await getDocs(q);
         return result
     }
 
-    static async findPatient(lineId){
+    static async findPatient(userId){
     
-        const q = query(collection(db, "Patient"), where("lineId", "==", lineId));
+        const q = query(collection(db, "Patient"), where("userId", "==", userId));
         const result = await getDoc(q);
         return result
     }
 
-    static async addPatient(patientInfo) {
+    static async addPatient(userId, patientInfo) {
         try {
             const patientRef = collection(db, "Patient");
             const latestPatientQuery = query(patientRef, orderBy("id", "desc"), limit(1));
@@ -31,7 +31,8 @@ class AuthRepository{
             }
     
             await setDoc(doc(db, "Patient", newPatientId.toString()), { id: newPatientId, ...patientInfo });
-    
+            client.linkRichMenuToUser(userId, "richmenu-0d781419c7e23e5eca8078a2ad4768ee");
+
             return { id: newPatientId, ...patientInfo };
         } catch (error) {
             console.error(error);

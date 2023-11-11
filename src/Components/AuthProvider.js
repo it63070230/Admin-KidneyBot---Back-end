@@ -7,22 +7,22 @@ class AuthProvider {
     static async addPatient(body){
         try {
             const { 
-                lineId
+                userId
             } = body
             
-            //Check is lineId existed?
-            const oldLineId = await AuthRepository.findPatients(lineId)
-            // console.log(oldLineId.docs.length)
+            //Check is userId existed?
+            const olduserId = await AuthRepository.findPatients(userId)
+            // console.log(olduserId.docs.length)
 
-            if(oldLineId.docs.length > 0){
-                // console.log("This lineId already existed")
-                return "This lineId already existed"
+            if(olduserId.docs.length > 0){
+                // console.log("This userId already existed")
+                return "This userId already existed"
             }
 
             let objectForAdd = body
 
 
-            const result = await AuthRepository.addPatient(objectForAdd)
+            const result = await AuthRepository.addPatient(userId, objectForAdd)
 
             return result
         } catch (error) {
@@ -30,20 +30,20 @@ class AuthProvider {
         }
     }
 
-    static async patientSignIn(lineId){
+    static async patientSignIn(userId){
         try {
 
-            if(lineId == null){
+            if(userId == null){
                 return null
             }
 
-            const foundPatient = await AuthRepository.findPatients(lineId)
+            const foundPatient = await AuthRepository.findPatients(userId)
 
             if(foundPatient.docs.length == 0){
                 return null
             }
 
-            const token = jwt.sign({"lineId" : lineId,"id" : foundPatient.docs[0].id,"is_admin": false}, process.env.TOKEN_SECRET);
+            const token = jwt.sign({"userId" : userId,"id" : foundPatient.docs[0].id,"is_admin": false}, process.env.TOKEN_SECRET);
 
             return token
             
@@ -63,12 +63,12 @@ class AuthProvider {
                 role
             } = body
             
-            //Check is lineId existed?
+            //Check is userId existed?
             const oldUsername = await AuthRepository.findAdmins(username)
             // console.log(oldUsername.docs.length)
 
             if(oldUsername.docs.length > 0){
-                // console.log("This lineId alread existed")
+                // console.log("This userId alread existed")
                 return "This user alread existed"
             }
 
@@ -108,7 +108,7 @@ class AuthProvider {
                 return null
             }
 
-            // const token = jwt.sign({lineId}, process.env.TOKEN_SECRET, { expiresIn: '30s' });
+            // const token = jwt.sign({userId}, process.env.TOKEN_SECRET, { expiresIn: '30s' });
             const token = jwt.sign({"username" : username,"id" : foundAdmin.docs[0].id, "is_admin": true}, process.env.TOKEN_SECRET);
 
             return token
