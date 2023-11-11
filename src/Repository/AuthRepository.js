@@ -1,5 +1,13 @@
 const { collection, query, where, getDocs, addDoc, setDoc, getDoc, doc, orderBy, limit } = require("firebase/firestore");
 const db = require('../Data/db')
+const line = require('@line/bot-sdk');
+
+const config = {
+    channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN,
+    channelSecret: process.env.CHANNEL_SECRET,
+};
+
+const client = new line.Client(config);
 
 class AuthRepository{
 

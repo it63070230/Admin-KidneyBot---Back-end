@@ -12,7 +12,7 @@ class ProfileProvider {
         return null;
       }
 
-      const profile = await ProfileRepository.getProfileByLineID(deToken.lineId);
+      const profile = await ProfileRepository.getProfileByUserId(deToken.userId);
 
       if (profile == null) {
         console.log('Profile not found');
@@ -50,7 +50,7 @@ class ProfileProvider {
       }
 
       const updatedProfile = await ProfileRepository.updateProfile(
-        deToken.lineId,
+        deToken.userId,
         newProfileData
       );
 

@@ -24,16 +24,16 @@ class ProfileRepository {
     let resultArray = [];
 
     result.docs.forEach(doc => {
-        const data = doc.data();
-        const id = doc.id;
-        resultArray.push({ id, ...data });
+      const data = doc.data();
+      const id = doc.id;
+      resultArray.push({ id, ...data });
     });
 
     return resultArray;
   }
 
-  static async getProfileByLineID(lineId) {
-    const q = query(collection(db, 'Patient'), where('lineId', '==', lineId));
+  static async getProfileByUserId(userId) {
+    const q = query(collection(db, 'Patient'), where('userId', '==', userId));
     const result = await getDocs(q);
 
     if (result.docs.length === 0) {
@@ -43,8 +43,8 @@ class ProfileRepository {
     return result.docs[0].data();
   }
 
-  static async updateProfile(lineId, newData) {
-    const q = query(collection(db, 'Patient'), where('lineId', '==', lineId));
+  static async updateProfile(userId, newData) {
+    const q = query(collection(db, 'Patient'), where('userId', '==', userId));
     const result = await getDocs(q);
 
     if (result.docs.length === 0) {
@@ -57,8 +57,8 @@ class ProfileRepository {
     return newData;
   }
 
-  static async deleteProfile(lineId) {
-    const q = query(collection(db, 'Patient'), where('lineId', '==', lineId));
+  static async deleteProfile(userId) {
+    const q = query(collection(db, 'Patient'), where('userId', '==', userId));
     const result = await getDocs(q);
 
     if (result.docs.length === 0) {

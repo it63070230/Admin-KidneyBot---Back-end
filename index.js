@@ -9,12 +9,13 @@ dotenv.config();
 const app = express();
 const PORT = 3000;
 
-const config = {
-    channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN,
-    channelSecret: process.env.CHANNEL_SECRET,
-};
 
-const client = new line.Client(config);
+
+app.get('/', (req, res)=>{
+    res.status(200);
+    res.send("Welcome to root url");
+});
+
 app.use(express.urlencoded({ extended: false }));
 
 app.use(express.json());
