@@ -37,7 +37,7 @@ class AuthRepository{
                 const latestPatient = latestPatientSnapshot.docs[0].data();
                 newPatientId = latestPatient.id + 1;
             }
-    
+
             await setDoc(doc(db, "Patient", newPatientId.toString()), { id: newPatientId, ...patientInfo });
             client.linkRichMenuToUser(userId, "richmenu-0d781419c7e23e5eca8078a2ad4768ee");
 

@@ -130,7 +130,6 @@ class RecordRepository {
 
     static async deleteSubRecord(collection_name, id, subRecordIndex, sub_record) {
         const docRef = doc(db, collection_name, id);
-        console.log(docRef)
 
         const docSnapshot = await getDoc(docRef);
 
@@ -139,14 +138,16 @@ class RecordRepository {
         }
 
         if (
-            docSnapshot.data()[sub_record] &&
-            docSnapshot.data()[sub_record].length > subRecordIndex
-        ) {
-            docSnapshot.data()[sub_record].splice(subRecordIndex, 1);
+            Array.isArray(docSnapshot.data()[sub_record]) &&
+            subRecordIndex >= 0 &&
+            subRecordIndex < docSnapshot.data()[sub_record].length
+          ) {
+            const newArray = docSnapshot.data()[sub_record].filter((_, index) => index !== subRecordIndex);
+          
+            await updateDoc(docRef, { [sub_record]: newArray });
+            return true;
         }
 
-        await updateDoc(docRef, docSnapshot.data());
-        return true;
     }
 }
 
