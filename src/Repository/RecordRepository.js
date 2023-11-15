@@ -91,13 +91,13 @@ class RecordRepository {
 
     static async addSubRecord(collection_name, id, sub_name, record) {
         const recordRef = doc(db, collection_name, id);
-
         var add_object = {};
         add_object[sub_name] = arrayUnion(record);
 
-        const res = await updateDoc(recordRef, add_object);
-
-        return res
+        if ( record !== undefined ) {
+            await updateDoc(recordRef, add_object);
+            return true
+        }        
     }
 
     static async updateSubRecord(collection_name, id, subRecordIndex, sub_record, data) {

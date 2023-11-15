@@ -100,6 +100,44 @@ class RecordProvider {
         }
     }
 
+    static async adminAddSubRecord(patientIdObject, sub_record, data, token) {
+        try {
+            const deToken = TokenChecker.isTokenValid(token)
+
+            if (deToken.is_admin == false) {
+                return null
+            }
+            const patientId = patientIdObject.patientId;
+            const collection_name = "Patient";
+            const result = await RecordRepository.addSubRecord(collection_name, patientId, sub_record, data)
+            return result;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    static async updateSubRecord(patientId, subRecordIndex, sub_record, data, token) {
+        try {
+            const deToken = TokenChecker.isTokenValid(token)
+
+            if (deToken.is_admin == false) {
+                return null
+            }
+
+            const collection_name = "Patient";
+            const result = await RecordRepository.updateSubRecord(
+                collection_name,
+                patientId,
+                subRecordIndex,
+                sub_record,
+                data
+            );
+            return result;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     static async updateSubRecord(patientId, subRecordIndex, sub_record, data, token) {
         try {
             const deToken = TokenChecker.isTokenValid(token)

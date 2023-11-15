@@ -39,7 +39,7 @@ class AuthRepository{
             }
 
             await setDoc(doc(db, "Patient", newPatientId.toString()), { id: newPatientId, ...patientInfo });
-            client.linkRichMenuToUser(userId, "richmenu-0d781419c7e23e5eca8078a2ad4768ee");
+            client.linkRichMenuToUser(userId, "richmenu-ba24bfd6f230afd06eddd0f4e8179c9a");
 
             return { id: newPatientId, ...patientInfo };
         } catch (error) {

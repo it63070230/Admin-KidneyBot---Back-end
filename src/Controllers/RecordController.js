@@ -38,6 +38,24 @@ class RecordController {
         return res.json(result)
     }
 
+    static async adminAddSubRecord(req, res) {
+        try {
+            const { patientId, data } = req.body;
+            const token = req.headers.authorization;
+            const sub_record = req.params.sub_record
+
+            const result = await RecordProvider.adminAddSubRecord(patientId, sub_record, data, token);
+            if (result) {
+                return res.json({ message: "Sub-record added successfully" });
+            } else {
+                return res.status(404).json({ message: "Sub-record not found" });
+            }
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+    }
+
     static async updateSubRecord(req, res) {
         try {
             const { patientId, subRecordIndex, data } = req.body;
