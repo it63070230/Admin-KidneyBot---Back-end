@@ -18,13 +18,6 @@ class AuthRepository{
         return result
     }
 
-    static async findPatient(userId){
-    
-        const q = query(collection(db, "Patient"), where("userId", "==", userId));
-        const result = await getDoc(q);
-        return result
-    }
-
     static async addPatient(userId, patientInfo) {
         try {
             const patientRef = collection(db, "Patient");
