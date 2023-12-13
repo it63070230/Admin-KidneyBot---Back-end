@@ -1,4 +1,4 @@
-const {initializeApp} = require('firebase/app')
+const { initializeApp } = require('firebase/app')
 const { getFirestore } = require('firebase/firestore')
 const dotenv = require('dotenv');
 dotenv.config();
@@ -12,13 +12,13 @@ dotenv.config();
 //     appId: process.env.APP_ID
 // };
 const firebaseConfig = {
-    apiKey: "AIzaSyAjGt6B8Bjmmsq_K4aXXnKmpodfxXfBEk4",
-    authDomain: "kidney-bot-project.firebaseapp.com",
-    projectId: "kidney-bot-project",
-    storageBucket: "kidney-bot-project.appspot.com",
-    messagingSenderId: "38317378895",
-    appId: "1:38317378895:web:a6a10658dae5d21497893a"
-  };
+  apiKey: "AIzaSyAVMInO8vhW9JnoB2V-tga5Az5NlD3M1bg",
+  authDomain: "kidneybot-734f4.firebaseapp.com",
+  projectId: "kidneybot-734f4",
+  storageBucket: "kidneybot-734f4.appspot.com",
+  messagingSenderId: "638159419",
+  appId: "1:638159419:web:03bd72e232217e83056a1e",
+};
 
 // console.log(firebaseConfig)
 
